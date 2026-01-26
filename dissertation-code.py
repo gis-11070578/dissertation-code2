@@ -12,9 +12,7 @@ start_time = perf_counter()
 # All Imports -------------------------------
 
 from geopandas import read_file, gpd
-from rasterio import open as rio_open
-from rasterio.transform import rowcol
-from rasterio.plot import show as rio_show
+from shapely import unary_union
 
 # All Functions ---------------------------------
 
@@ -63,7 +61,9 @@ bad_contours = contours[
 
 print(len(bad_contours))
 
-#
+#merging all bad contours (so that its easy to erase)
+bad_geom = unary_union(bad_contours.geometry)
+
 
 #iterate through each polygon 
 
