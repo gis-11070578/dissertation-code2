@@ -17,8 +17,22 @@ from shapely import unary_union
 # All Functions ---------------------------------
 
 #erasing bad contours function - instead of long code
+def erase_contours(erase_geom, land_type):
+    
+    #empty list to store all new polygons created after erasing
+    output_polygons = []
 
+    #iterate through each polygon 
 
+    #if each polygon intersects with the contour polygon 
+
+    #get the shape area of the contour polygon overlapping with natural land polygon 
+
+    #use erase tool to erase the contour polygon shape from the natural land
+
+    #output new shapes with all new natural land polygons
+
+    
 
 # Main Code -------------------------------------
 
@@ -53,6 +67,7 @@ natural_counts = landuse.groupby(["Name"]).size()
 #contour min field = 0 to 45 in 5m intervals 
 #contour max field = 5 to 50 in 5m intervals 
 
+#PARAMETER 1 - ELEVATION - USER DEFINED 
 ELEV_MIN = 15
 ELEV_MAX = 60
 
@@ -66,19 +81,7 @@ print(f"Contour rows removed: {len(bad_contours)}")
 #merging all bad contours (so that its easy to erase)
 bad_geom = unary_union(bad_contours.geometry)
 
-
-#iterate through each polygon 
-
-#if each polygon intersects with the contour polygon 
-
-#get the shape area of the contour polygon overlapping with natural land polygon 
-
-#use erase tool to erase the contour polygon shape from the natural land
-
-#output new shapes with all new natural land polygons
-
-
-# Splitting Land Use Types --------------
+# Splitting Land Use Types -----
 #for efficiency instead of redoing this section of code twice
 
 #select by attributes - natural land
