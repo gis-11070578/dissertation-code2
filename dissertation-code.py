@@ -133,6 +133,15 @@ manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 print(f"Natural Polygons after CUT: {len(natural_clean)}")
 print(f"Manmade Polygons after CUT: {len(manmade_clean)}")
 
+# Saving outputs to a new shapefile -----
+
+#ADD FILE PATHS
+#new natural land polygons to new shapefile
+natural_clean.to_file()
+
+#new manmade land polygons to new shapefile
+manmade_clean.to_file()
+
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
 
