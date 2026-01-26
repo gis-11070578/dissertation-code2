@@ -11,10 +11,11 @@ start_time = perf_counter()
 
 # All Imports -------------------------------
 
-from geopandas import read_file, gpd
+import geopandas as gpd
 from shapely import unary_union
 
 # All Functions ---------------------------------
+
 
 # Main Code -------------------------------------
 
@@ -41,8 +42,6 @@ contours = contours.to_crs(landuse.crs)
 
 # SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
 
-# Part 1 - Natural Land - looking at each polygon and cutting ----
-
 #count all polygons that contain "natural land" in the NAME field
 natural_counts = landuse.groupby(["Name"]).size() 
 print(natural_counts)
@@ -59,7 +58,7 @@ bad_contours = contours[
     (contours["ContourMin"] >= ELEV_MIN) &
     (contours["ContourMax"] <= ELEV_MAX)]
 
-print(len(bad_contours))
+print(f"Contour rows removed: {len(bad_contours)}")
 
 #merging all bad contours (so that its easy to erase)
 bad_geom = unary_union(bad_contours.geometry)
@@ -76,8 +75,17 @@ bad_geom = unary_union(bad_contours.geometry)
 #output new shapes with all new natural land polygons
 
 
-# Part 2 - Manmade Surface - looking at each polygon and cutting ----
+# Splitting Land Use Types --------------
+#for efficiency instead of redoing this section of code twice
 
+#select by attributes - natural land
+natural_land = landuse[landuse["Name"].contains("Natural Land")]
+
+#select by attributes - manmade surface
+manmade_land = landuse[landuse["Name"].contains("Manmade Surface")]
+
+print(len(natural_land))
+print(len(manmade_land))
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
