@@ -36,13 +36,37 @@ floodzone_2 = rio_open("../data/")
 floodzone_3 = rio_open("../data/")
 
 
-#SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
+# SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
+
+# Part 1 - Natural Land - looking at each polygon and cutting ----
+
+#count all polygons that contain "natural land" in the NAME field
+
+#get geometry - shape area 
+
+# create user defined elevation contour cut off 
+#contour min field = 0 to 45 in 5m intervals 
+#contour max field = 5 to 50 in 5m intervals 
+
+#iterate through each polygon 
+
+#if each polygon intersects with the contour polygon 
+
+#get the shape area of the contour polygon overlapping with natural land polygon 
+
+#use erase tool to erase the shape from the natural land
+
+#output new shapes with all new natural land polygons
 
 
-#SECTION 2 - Finding max circle in each polygon ------------------------
+# Part 2 - Manmade Surface - looking at each polygon and cutting ----
 
 
-#SECTION 3 - Creating weighted overlays (user defined) ------------------
+
+# SECTION 2 - Finding max circle in each polygon ------------------------
+
+
+# SECTION 3 - Creating weighted overlays (user defined) ------------------
 
 
 
