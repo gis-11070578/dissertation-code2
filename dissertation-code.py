@@ -23,10 +23,12 @@ from rasterio.plot import show as rio_show
 # Load all spatial data ----------
 
 #load all contours - vector
-contours = gpd.read_file("../../data/SlopeContour_polygon.shp")
+#contours = gpd.read_file("../data/SlopeContour_polygon.shp")
+contours = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/data/SlopeContour_polygon.shp")
 
 #load all landuse - vector
-landuse = gpd.read_file("../../data/Land-Use-All.shp")
+#landuse = gpd.read_file("../data/Land-Use-All.shp")
+landuse = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/data/Land-Use-All.shp")
 
 #NOT COMPLETED YET
 #load all flood zone 2 - raster 
@@ -44,15 +46,24 @@ contours = contours.to_crs(landuse.crs)
 # Part 1 - Natural Land - looking at each polygon and cutting ----
 
 #count all polygons that contain "natural land" in the NAME field
-natural_counts = landuse.groupby("NAME").size() 
-
+natural_counts = landuse.groupby(["Name"]).size() 
 print(natural_counts)
 
-#get geometry - shape area 
-
-# create user defined elevation contour cut off 
+# create user defined elevation contour cut off ----
 #contour min field = 0 to 45 in 5m intervals 
 #contour max field = 5 to 50 in 5m intervals 
+
+ELEV_MIN = 15
+ELEV_MAX = 60
+
+#Filter contours by threshold ----
+bad_contours = contours[
+    (contours["ContourMin"] >= ELEV_MIN) &
+    (contours["ContourMax"] <= ELEV_MAX)]
+
+print(len(bad_contours))
+
+#
 
 #iterate through each polygon 
 
