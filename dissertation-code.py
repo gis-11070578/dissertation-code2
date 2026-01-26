@@ -23,11 +23,10 @@ def erase_contours(gdf, erase_geom, land_type):
     Function used to erase contour polygon from the land type polygon
     - easy so that can call function at any time 
     
-    gdf = geodataframe
+    gdf = geodataframe - shapefile used
     erase_geom = the contour area that needs to be erased 
     land_type = either natural or manmade land
     """
-    
     
     #empty list to store all new polygons rows created after erasing
     output_polygons = []
@@ -103,6 +102,7 @@ bad_contours = contours[
     (contours["ContourMin"] >= ELEV_MIN) &
     (contours["ContourMax"] <= ELEV_MAX)]
 
+#number of attribute rows that were removed - from arcgis 
 print(f"Contour rows removed: {len(bad_contours)}")
 
 #merging all bad contours (so that its easy to erase)
@@ -117,10 +117,21 @@ natural_land = landuse[landuse["Name"].str.contains("Natural Land")]
 #select by attributes - manmade surface
 manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 
+#printing a count of all raw polygons in attributes
 print(f"Natural RAW Polygons: {len(natural_land)}")
 print(f"Manmade RAW Polygons: {len(manmade_land)}")
 
+# Running the erase contour function -----
 
+#calling function to erase contours for natural land 
+natural_clean = erase_contours(natural_land, bad_geom, "Natural Land")
+
+#calling function to erase contours for manmade surface 
+manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
+
+#printing new count of all cut down polygons after erase function
+print(f"Natural Polygons after CUT: {len(natural_clean)}")
+print(f"Manmade Polygons after CUT: {len(manmade_clean)}")
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
