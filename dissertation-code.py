@@ -23,17 +23,20 @@ from rasterio.plot import show as rio_show
 # Load all spatial data ----------
 
 #load all contours - vector
-contours = read_file("../data/SlopeContour_polygon.shp")
+contours = gpd.read_file("../../data/SlopeContour_polygon.shp")
 
 #load all landuse - vector
-Land_Use = read_file("../data/Land-Use-All")
+landuse = gpd.read_file("../../data/Land-Use-All.shp")
 
 #NOT COMPLETED YET
 #load all flood zone 2 - raster 
-floodzone_2 = rio_open("../data/")
+#floodzone_2 = rio_open("../data/")
 
 #load all flood zone 3 - raster 
-floodzone_3 = rio_open("../data/")
+#floodzone_3 = rio_open("../data/")
+
+#ensure all the same CRS -------
+contours = contours.to_crs(landuse.crs)
 
 
 # SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
@@ -41,6 +44,9 @@ floodzone_3 = rio_open("../data/")
 # Part 1 - Natural Land - looking at each polygon and cutting ----
 
 #count all polygons that contain "natural land" in the NAME field
+natural_counts = landuse.groupby("NAME").size() 
+
+print(natural_counts)
 
 #get geometry - shape area 
 
@@ -54,7 +60,7 @@ floodzone_3 = rio_open("../data/")
 
 #get the shape area of the contour polygon overlapping with natural land polygon 
 
-#use erase tool to erase the shape from the natural land
+#use erase tool to erase the contour polygon shape from the natural land
 
 #output new shapes with all new natural land polygons
 
@@ -62,8 +68,7 @@ floodzone_3 = rio_open("../data/")
 # Part 2 - Manmade Surface - looking at each polygon and cutting ----
 
 
-
-# SECTION 2 - Finding max circle in each polygon ------------------------
+# SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
