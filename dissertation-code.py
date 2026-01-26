@@ -16,6 +16,9 @@ from shapely import unary_union
 
 # All Functions ---------------------------------
 
+#erasing bad contours function - instead of long code
+
+
 
 # Main Code -------------------------------------
 
@@ -44,7 +47,7 @@ contours = contours.to_crs(landuse.crs)
 
 #count all polygons that contain "natural land" in the NAME field
 natural_counts = landuse.groupby(["Name"]).size() 
-print(natural_counts)
+#print(natural_counts)
 
 # create user defined elevation contour cut off ----
 #contour min field = 0 to 45 in 5m intervals 
@@ -79,13 +82,15 @@ bad_geom = unary_union(bad_contours.geometry)
 #for efficiency instead of redoing this section of code twice
 
 #select by attributes - natural land
-natural_land = landuse[landuse["Name"].contains("Natural Land")]
+natural_land = landuse[landuse["Name"].str.contains("Natural Land")]
 
 #select by attributes - manmade surface
-manmade_land = landuse[landuse["Name"].contains("Manmade Surface")]
+manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 
-print(len(natural_land))
-print(len(manmade_land))
+print(f"Natural RAW Polygons: {len(natural_land)}")
+print(f"Manmade RAW Polygons: {len(manmade_land)}")
+
+
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
