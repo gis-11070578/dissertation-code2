@@ -19,6 +19,16 @@ from shapely import unary_union
 #erasing bad contours function - instead of long code
 def erase_contours(gdf, erase_geom, land_type):
     
+    """
+    Function used to erase contour polygon from the land type polygon
+    - easy so that can call function at any time 
+    
+    gdf = geodataframe
+    erase_geom = the contour area that needs to be erased 
+    land_type = either natural or manmade land
+    """
+    
+    
     #empty list to store all new polygons rows created after erasing
     output_polygons = []
 
@@ -28,11 +38,24 @@ def erase_contours(gdf, erase_geom, land_type):
         #extracting the polygon geometry from geodataframe 
         geom = row.geometry
         
-        #if each polygon intersects with the contour polygon 
+        #intersection test - 
+        #if each land-type polygon DOESNT intersects with the contour polygon 
+        if not geom.intersects(erase_geom): 
         
-        #get the shape area of the contour polygon overlapping with natural land polygon 
-
-        #use erase tool to erase the contour polygon shape from the natural land
+            #add non intersecting polygons to new variable
+            new_geom = geom
+            
+        else:
+    
+            #difference tool - A.difference(B) = A - B results in portion of A
+            #subtracts the contour area from the land polygon (landuse polygon minus contour polygon)
+            new_geom = geom.difference(erase_geom)
+            
+        #if the landuse polygon is entirely removed by the contour erase 
+        if new_geom.is_empty: 
+            
+            #then skip it - continue tool
+            continue
 
         #output new shapes with all new natural land polygons
 
