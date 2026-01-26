@@ -17,20 +17,24 @@ from shapely import unary_union
 # All Functions ---------------------------------
 
 #erasing bad contours function - instead of long code
-def erase_contours(erase_geom, land_type):
+def erase_contours(gdf, erase_geom, land_type):
     
-    #empty list to store all new polygons created after erasing
+    #empty list to store all new polygons rows created after erasing
     output_polygons = []
 
-    #iterate through each polygon 
+    #iterate through each polygon - looping through
+    for idx, row in gdf.iterrows():
 
-    #if each polygon intersects with the contour polygon 
+        #extracting the polygon geometry from geodataframe 
+        geom = row.geometry
+        
+        #if each polygon intersects with the contour polygon 
+        
+        #get the shape area of the contour polygon overlapping with natural land polygon 
 
-    #get the shape area of the contour polygon overlapping with natural land polygon 
+        #use erase tool to erase the contour polygon shape from the natural land
 
-    #use erase tool to erase the contour polygon shape from the natural land
-
-    #output new shapes with all new natural land polygons
+        #output new shapes with all new natural land polygons
 
     
 
