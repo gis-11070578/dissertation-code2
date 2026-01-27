@@ -115,15 +115,22 @@ ELEV_MIN = 15
 ELEV_MAX = 60
 
 #Filter contours by threshold ----
+#only selecting contours whos elevation is inside min and max
 bad_contours = contours[
-    (contours["ContourMin"] > ELEV_MIN) &
-    (contours["ContourMax"] < ELEV_MAX)]
+    (contours["ContourMin"] >= ELEV_MIN) &
+    (contours["ContourMax"] <= ELEV_MAX)]
 
 #number of attribute rows that were removed - from arcgis 
 print(f"Contour rows removed: {len(bad_contours)}")
 
 #merging all bad contours (so that its easy to erase)
 bad_geom = unary_union(bad_contours.geometry)
+
+
+print("Any intersections at all?:",
+      landuse.intersects(bad_geom).sum())
+
+print("Bad geom is empty?:", bad_geom.is_empty)
 
 # Splitting Land Use Types -----
 #for efficiency instead of redoing this section of code twice
