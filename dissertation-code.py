@@ -37,6 +37,10 @@ def erase_contours(gdf, erase_geom, land_type):
         #extracting the polygon geometry from geodataframe 
         geom = row.geometry
         
+        #skip invalid or empty geometries 
+        if geom is None or geom.is_empty:
+            continue
+        
         #intersection test - 
         #if each land-type polygon DOESNT intersects with the contour polygon 
         if not geom.intersects(erase_geom): 
@@ -160,19 +164,21 @@ natural_clean = erase_contours(natural_land, bad_geom, "Natural Land")
 manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 
 #printing new count of all cut down polygons after erase function
-print(f"Natural Polygons after CUT: {len(natural_clean)}")
-print(f"Manmade Polygons after CUT: {len(manmade_clean)}")
+#print(f"Natural Polygons after CUT: {len(natural_clean)}")
+#print(f"Manmade Polygons after CUT: {len(manmade_clean)}")
+
 
 # Saving outputs to a new shapefile -----
 
 #ADD FILE PATHS
 #new natural land polygons to new shapefile
-#natural_clean.to_file()
+natural_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/natural_clean.shp")
 
 #new manmade land polygons to new shapefile
-#manmade_clean.to_file()
+manmade_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/manmade_clean.shp")
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
+
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
