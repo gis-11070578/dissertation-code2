@@ -67,8 +67,8 @@ def erase_contours(gdf, erase_geom, land_type):
             #parts is remained unchanged
             parts = [new_geom] 
 
-        #output new shapes with all new natural land polygons
-
+    #output new shapes with all new natural land polygons
+    return gpd.GeoDataFrame(output_polygons, crs=gdf.crs)
     
 
 # Main Code -------------------------------------
