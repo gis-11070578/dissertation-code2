@@ -57,18 +57,24 @@ def erase_contours(gdf, erase_geom, land_type):
             continue
         
         #dealing with multiparts - if the erase function splits the polygon into multiple polygons 
-        if new_geom.geom_type == 'MultiPolygon':
+        #if new_geom.geom_type == 'MultiPolygon':
             
             #new variable parts = contains a list of all new geoms
             #treat each fragment as its own candidate
-            parts = list(new_geom.geoms)
+            #parts = list(new_geom.geoms)
         
-        else:
+        #else:
             #parts is remained unchanged
-            parts = [new_geom] 
+            #parts = [new_geom] 
             
-        for part in parts: 
-            output_polygons.append({"geometry": part})
+        #for part in parts: 
+            #output_polygons.append({"geometry": part})
+            
+        #not splitting multiparts
+        output_polygons.append({
+            "orig_id": idx,
+            "land_type": land_type, 
+            "geometry": new_geom })
 
     #output new shapes with all new natural land polygons
     return gpd.GeoDataFrame(
