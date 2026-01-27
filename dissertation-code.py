@@ -57,7 +57,7 @@ def erase_contours(gdf, erase_geom, land_type):
             continue
         
         #dealing with multiparts - if the erase function splits the polygon into multiple polygons 
-        if new_geom.geom_type == 'Multipolygon':
+        if new_geom.geom_type == 'MultiPolygon':
             
             #new variable parts = contains a list of all new geoms
             #treat each fragment as its own candidate
@@ -66,9 +66,15 @@ def erase_contours(gdf, erase_geom, land_type):
         else:
             #parts is remained unchanged
             parts = [new_geom] 
+            
+        for part in parts: 
+            output_polygons.append({"geometry": part})
 
     #output new shapes with all new natural land polygons
-    return gpd.GeoDataFrame(output_polygons, crs=gdf.crs)
+    return gpd.GeoDataFrame(
+        output_polygons, 
+        geometry = "geometry",
+        crs=gdf.crs)
     
 
 # Main Code -------------------------------------
@@ -110,8 +116,8 @@ ELEV_MAX = 60
 
 #Filter contours by threshold ----
 bad_contours = contours[
-    (contours["ContourMin"] >= ELEV_MIN) &
-    (contours["ContourMax"] <= ELEV_MAX)]
+    (contours["ContourMin"] > ELEV_MIN) &
+    (contours["ContourMax"] < ELEV_MAX)]
 
 #number of attribute rows that were removed - from arcgis 
 print(f"Contour rows removed: {len(bad_contours)}")
@@ -148,10 +154,10 @@ print(f"Manmade Polygons after CUT: {len(manmade_clean)}")
 
 #ADD FILE PATHS
 #new natural land polygons to new shapefile
-natural_clean.to_file()
+#natural_clean.to_file()
 
 #new manmade land polygons to new shapefile
-manmade_clean.to_file()
+#manmade_clean.to_file()
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
