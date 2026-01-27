@@ -13,6 +13,8 @@ start_time = perf_counter()
 
 import geopandas as gpd
 from shapely import unary_union
+from shapely import maximum_inscribed_circle
+from shapely.geometry import Point, LineString
 
 # All Functions ---------------------------------
 
@@ -60,21 +62,7 @@ def erase_contours(gdf, erase_geom, land_type):
             #then skip it - continue tool
             continue
         
-        #dealing with multiparts - if the erase function splits the polygon into multiple polygons 
-        #if new_geom.geom_type == 'MultiPolygon':
-            
-            #new variable parts = contains a list of all new geoms
-            #treat each fragment as its own candidate
-            #parts = list(new_geom.geoms)
-        
-        #else:
-            #parts is remained unchanged
-            #parts = [new_geom] 
-            
-        #for part in parts: 
-            #output_polygons.append({"geometry": part})
-            
-        #not splitting multiparts
+        #not splitting multiparts - appending the new geom to output
         output_polygons.append({
             "orig_id": idx,
             "land_type": land_type, 
@@ -85,7 +73,30 @@ def erase_contours(gdf, erase_geom, land_type):
         output_polygons, 
         geometry = "geometry",
         crs=gdf.crs)
+
+#creating the max inscribed circle within each polygon
+def comute_mic(gdf): 
     
+    """
+    Maximum inscirbed circle -  finds the max circle within each polygon 
+    - works with polygons with holes and multipolygons 
+    - finds the point in the polygon with the farthest distance from the boundary
+    - optimisation process rather than sampling multiple points 
+    
+    """
+    
+    ##empty list to store all new circles
+    mic_results = []
+    
+    #iterate through each polygon - looping through
+    for idx, row in gdf.iterrows():
+
+        #extracting the polygon geometry from geodataframe 
+        poly = row.geometry
+        
+        #skip invalid or empty geometries 
+        if poly is None or poly.is_empty:
+            continue
 
 # Main Code -------------------------------------
 
@@ -170,12 +181,12 @@ manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 
 # Saving outputs to a new shapefile -----
 
-#ADD FILE PATHS
 #new natural land polygons to new shapefile
 natural_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/natural_clean.shp")
 
 #new manmade land polygons to new shapefile
 manmade_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/manmade_clean.shp")
+
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
