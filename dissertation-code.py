@@ -76,8 +76,17 @@ def erase_contours(gdf, erase_geom, land_type):
 
 
 
+#USER DEFINED PARAMETERS - FOR COMPUTING THE MAX CIRCLE
+
+# minimum tank radius (m)
+min_radius = 4
+
+# clearance - buffer from the polygon edges (m)
+boundary_clearance = 5
+    
+
 #creating the max inscribed circle within each polygon
-def comute_mic(gdf): 
+def comute_mic(gdf, min_radius, boundary_clearance): 
     
     """
     Maximum inscirbed circle -  finds the max circle within each polygon 
@@ -88,6 +97,7 @@ def comute_mic(gdf):
     - optimisation process rather than sampling multiple points 
     """
     
+
     ##empty list to store all new circles
     mic_results = []
     
