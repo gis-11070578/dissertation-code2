@@ -74,15 +74,18 @@ def erase_contours(gdf, erase_geom, land_type):
         geometry = "geometry",
         crs=gdf.crs)
 
+
+
 #creating the max inscribed circle within each polygon
 def comute_mic(gdf): 
     
     """
     Maximum inscirbed circle -  finds the max circle within each polygon 
     - works with polygons with holes and multipolygons 
+    
+    Finds Pole of inaccessability
     - finds the point in the polygon with the farthest distance from the boundary
     - optimisation process rather than sampling multiple points 
-    
     """
     
     ##empty list to store all new circles
@@ -97,6 +100,10 @@ def comute_mic(gdf):
         #skip invalid or empty geometries 
         if poly is None or poly.is_empty:
             continue
+        
+        
+        
+
 
 # Main Code -------------------------------------
 
@@ -121,6 +128,7 @@ landuse = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manch
 contours = contours.to_crs(landuse.crs)
 
 
+
 # SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
 
 #count all polygons that contain "natural land" in the NAME field
@@ -135,6 +143,7 @@ natural_counts = landuse.groupby(["Name"]).size()
 ELEV_MIN = 15
 ELEV_MAX = 60
 
+
 #Filter contours by threshold ----
 #only selecting contours whos elevation is inside min and max
 bad_contours = contours[
@@ -147,11 +156,11 @@ print(f"Contour rows removed: {len(bad_contours)}")
 #merging all bad contours (so that its easy to erase)
 bad_geom = unary_union(bad_contours.geometry)
 
-
 print("Any intersections at all?:",
       landuse.intersects(bad_geom).sum())
 
 print("Bad geom is empty?:", bad_geom.is_empty)
+
 
 # Splitting Land Use Types -----
 #for efficiency instead of redoing this section of code twice
@@ -165,6 +174,7 @@ manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 #printing a count of all raw polygons in attributes
 print(f"Natural RAW Polygons: {len(natural_land)}")
 print(f"Manmade RAW Polygons: {len(manmade_land)}")
+
 
 # Running the erase contour function -----
 
@@ -188,7 +198,15 @@ natural_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manches
 manmade_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/manmade_clean.shp")
 
 
+
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
+
+#load all natural land - vector
+natural_clean = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/out/natural_clean.shp")
+
+#load all manmade surfaces - vector
+natural_clean = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/out/manmade_clean.shp")
+
 
 
 
