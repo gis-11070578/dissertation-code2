@@ -82,7 +82,7 @@ def erase_contours(gdf, erase_geom, land_type):
 min_radius = 4
 
 # clearance - buffer from the polygon edges (m)
-boundary_clearance = 5
+boundary_clearance = 4
     
 
 #creating the max inscribed circle within each polygon
@@ -112,14 +112,19 @@ def comute_mic(gdf, min_radius, boundary_clearance):
         
         #applying the boundary clearance inside the polygon 
         #before applying circles 
+        safe_poly = poly.buffer(-boundary_clearance)
         
         #skipping invalid or empty safe polygons
+        if safe_poly.is_empty:
+            continue
         
         #running the max inscribed circle tool 
+        mic_line = maximum_inscribed_circle(safe_poly)
         
         #output should be one line coords 
         #centre point (x), nearest boundary point (y)
         #isinstance = checking if outputting linestring 
+        
         
         #length of linestring should be 2 
         
