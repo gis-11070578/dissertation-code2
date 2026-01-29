@@ -293,8 +293,18 @@ manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 # Plotting all Maps ------------------------------
 
-# plot the dataset - 3 different maps -----------
-fig, my_ax = subplots(figsize=(9, 5))
+#select by attributes - rivers
+inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
+
+#select by attributes - roads
+roads = landuse[landuse["Name"].str.contains("Roads")]
+
+#select by attributes - buildings
+buildings = landuse[landuse["Name"].str.contains("Buildings")]
+
+
+# plot the dataset - 3 different maps -------------
+fig, my_ax = subplots(figsize=(7, 4))
 
 # remove axes
 my_ax.axis('off')
@@ -302,19 +312,32 @@ my_ax.axis('off')
 #creating title
 fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
 
+
+# extract the bounds from the CSO layer
+#minx, miny, maxx, maxy = contours.iloc[0].bounds
+
+# set bounds (10000m buffer around the border itself, to give us some context)
+#buffer = 50
+
 # plotting cleaned land use polygons -------
 
 #natural land cleaned
-natural_clean.plot(ax = my_ax, 
-                   color = '#ccebc5', 
-                   edgecolor = 'green',  
-                   linewidth = 0.3)
+natural_clean.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'green',  linewidth = 0.3)
 
 #manmade land cleaned
-manmade_clean.plot(ax = my_ax, 
-                   color = 'lightgrey', 
-                   edgecolor = 'grey',  
-                   linewidth = 0.3)
+manmade_clean.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
+
+#land use extras -----
+
+#natural land cleaned
+inland_water.plot(ax = my_ax, color = 'lightblue', edgecolor = 'blue',  linewidth = 0.3)
+
+#natural land cleaned
+roads.plot(ax = my_ax, color = '#fed9a6', edgecolor = 'orange',  linewidth = 0.3)
+
+#natural land cleaned
+buildings.plot(ax = my_ax, color = '#cbc3e3', edgecolor = 'purple',  linewidth = 0.3)
+
 
 # plotting MIC safe circles -------
 
