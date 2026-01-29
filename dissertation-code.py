@@ -79,14 +79,17 @@ def erase_contours(gdf, erase_geom, land_type):
 #USER DEFINED PARAMETERS - FOR COMPUTING THE MAX CIRCLE
 
 # minimum tank radius (m)
-MIN_RADIUS = 4
+MIN_RADIUS = 3
+
+# maximum tank radius (m)
+MAX_RADIUS = 40
 
 # clearance - buffer from the polygon edges (m)
-BOUNDARY_BUFFER = 4
+BOUNDARY_BUFFER = 3
     
 
 #creating the max inscribed circle within each polygon
-def compute_mic(gdf, min_radius, boundary_buffer): 
+def compute_mic(gdf, min_radius, max_radius, boundary_buffer): 
     
     """
     Maximum inscirbed circle -  finds the max circle within each polygon 
@@ -134,8 +137,8 @@ def compute_mic(gdf, min_radius, boundary_buffer):
         #radius is distance from centre to boundary pt
         radius = centre.distance(boundary_pt)
         
-        #if the radius is more than the minimum radius parameter - then skip/ignore
-        if radius < min_radius: 
+        #radius should be between max and min radius
+        if max_radius < radius < min_radius: 
             continue 
         
         #creating a circle variable to output
@@ -262,11 +265,13 @@ manmade_clean = gpd.read_file("out/manmade_clean.shp")
 natural_mic = compute_mic(
     natural_clean, 
     min_radius = MIN_RADIUS, 
+    max_radius = MAX_RADIUS,
     boundary_buffer = BOUNDARY_BUFFER )
 
 manmade_mic = compute_mic(
-    natural_clean, 
+    manmade_clean, 
     min_radius = MIN_RADIUS, 
+    max_radius = MAX_RADIUS,
     boundary_buffer = BOUNDARY_BUFFER )
 
 
