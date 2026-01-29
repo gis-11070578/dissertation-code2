@@ -15,6 +15,8 @@ import geopandas as gpd
 from shapely import unary_union
 from shapely import maximum_inscribed_circle
 from shapely.geometry import Point, LineString
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import subplots, savefig
 
 # All Functions ---------------------------------
 
@@ -291,8 +293,42 @@ manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 # Plotting all Maps ------------------------------
 
+# plot the dataset - 3 different maps -----------
+fig, my_ax = subplots(figsize=(12, 12))
 
+# remove axes
+my_ax.axis('off')
 
+#creating title
+fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
+
+# plotting cleaned land use polygons -------
+
+#natural land cleaned
+natural_clean.plot(ax = my_ax, 
+                   color = 'green', 
+                   edgecolor = 'green',  
+                   linewidth = 0.3)
+
+#manmade land cleaned
+manmade_clean.plot(ax = my_ax, 
+                   color = 'grey', 
+                   edgecolor = 'grey',  
+                   linewidth = 0.3)
+
+# plotting MIC safe circles -------
+
+#natural land cleaned
+natural_mic.plot(ax = my_ax, 
+                   color = None, 
+                   edgecolor = 'darkgreen',  
+                   linewidth = 1)
+
+#manmade land cleaned
+manmade_mic.plot(ax = my_ax, 
+                   color = None, 
+                   edgecolor = 'black',  
+                   linewidth = 1)
 
 # --- NO CODE BELOW HERE ---
 
