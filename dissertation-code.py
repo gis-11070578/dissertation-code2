@@ -129,11 +129,14 @@ def comute_mic(gdf, min_radius, boundary_clearance):
         #creating variables for each point and line that we want
         #centre point (x), nearest boundary point (y)
         centre = Point(mic_line.coords[0])
+        boundary_pt = Point(mic_line.coords[1])
         
+        #radius is distance from centre to boundary pt
+        radius = centre.distance(boundary_pt)
         
-        #if the radius is less than the minimum radius parameter
-        
-        #then skip/ignore
+        #if the radius is less than the minimum radius parameter - then skip/ignore
+        if radius > min_radius: 
+            continue 
         
         #creating a circle variable to output
         
