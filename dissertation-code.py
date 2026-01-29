@@ -96,9 +96,8 @@ def comute_mic(gdf, min_radius, boundary_clearance):
     - finds the point in the polygon with the farthest distance from the boundary
     - optimisation process rather than sampling multiple points 
     """
-    
 
-    ##empty list to store all new circles
+    #empty list to store all new circles
     mic_results = []
     
     #iterate through each polygon - looping through
@@ -111,9 +110,32 @@ def comute_mic(gdf, min_radius, boundary_clearance):
         if poly is None or poly.is_empty:
             continue
         
+        #applying the boundary clearance inside the polygon 
+        #before applying circles 
+        
+        #skipping invalid or empty safe polygons
+        
+        #running the max inscribed circle tool 
+        
+        #output should be one line coords 
+        #centre point (x), nearest boundary point (y)
+        #isinstance = checking if outputting linestring 
+        
+        #length of linestring should be 2 
+        
+        #creating variables for each point and line that we want
+        
+        #if the radius is less than the minimum radius parameter
+        
+        #then skip/ignore
+        
+        #creating a circle variable to output
+        
+        #append the circles in the new array
+        
+        #return output
         
         
-
 
 # Main Code -------------------------------------
 
@@ -149,7 +171,8 @@ natural_counts = landuse.groupby(["Name"]).size()
 #contour min field = 0 to 45 in 5m intervals 
 #contour max field = 5 to 50 in 5m intervals 
 
-#PARAMETER 1 - ELEVATION - USER DEFINED 
+# USER DEFINED PARAMETER - ELEVATION
+# ArcGIS attribute table - elevation to remove from polygons
 ELEV_MIN = 15
 ELEV_MAX = 60
 
