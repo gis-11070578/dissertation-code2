@@ -64,14 +64,14 @@ def erase_contours(gdf, erase_geom, land_type):
         
         #not splitting multiparts - appending the new geom to output
         output_polygons.append({
-            "orig_id": idx,
-            "land_type": land_type, 
-            "geometry": new_geom })
+            "ID": idx,
+            "Land_type": land_type, 
+            "Geometry": new_geom })
 
     #output new shapes with all new natural land polygons
     return gpd.GeoDataFrame(
         output_polygons, 
-        geometry = "geometry",
+        geometry = "Geometry",
         crs=gdf.crs)
 
 
@@ -86,7 +86,7 @@ boundary_clearance = 4
     
 
 #creating the max inscribed circle within each polygon
-def comute_mic(gdf, min_radius, boundary_clearance): 
+def comute_mic(gdf): 
     
     """
     Maximum inscirbed circle -  finds the max circle within each polygon 
@@ -142,10 +142,17 @@ def comute_mic(gdf, min_radius, boundary_clearance):
         circle = centre.buffer(radius)
         
         #append the circles in the new array
+        mic_results.append({
+            "ID": idx, 
+            "Radius": radius, 
+            "Diameter": radius *2,
+            "Geometry": circle })
         
-        
-        #return output
-        
+    #output new shapes with all new circles within polygon buffer
+    return gpd.GeoDataFrame(
+        mic_results, 
+        geometry = "Geometry",
+        crs=gdf.crs)
         
 
 # Main Code -------------------------------------
