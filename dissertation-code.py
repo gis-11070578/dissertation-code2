@@ -79,14 +79,14 @@ def erase_contours(gdf, erase_geom, land_type):
 #USER DEFINED PARAMETERS - FOR COMPUTING THE MAX CIRCLE
 
 # minimum tank radius (m)
-min_radius = 4
+MIN_RADIUS = 4
 
 # clearance - buffer from the polygon edges (m)
-boundary_clearance = 4
+BOUNDARY_BUFFER = 4
     
 
 #creating the max inscribed circle within each polygon
-def comute_mic(gdf): 
+def compute_mic(gdf, min_radius, boundary_buffer): 
     
     """
     Maximum inscirbed circle -  finds the max circle within each polygon 
@@ -112,7 +112,7 @@ def comute_mic(gdf):
         
         #applying the boundary clearance inside the polygon 
         #before applying circles 
-        safe_poly = poly.buffer(-boundary_clearance)
+        safe_poly = poly.buffer(-boundary_buffer)
         
         #skipping invalid or empty safe polygons
         if safe_poly.is_empty:
@@ -160,12 +160,10 @@ def comute_mic(gdf):
 # Load all spatial data ----------
 
 #load all contours - vector
-#contours = gpd.read_file("../data/SlopeContour_polygon.shp")
-contours = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/data/SlopeContour_polygon.shp")
+contours = gpd.read_file("data/SlopeContour_polygon.shp")
 
 #load all landuse - vector
-#landuse = gpd.read_file("../data/Land-Use-All.shp")
-landuse = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/data/Land-Use-All.shp")
+landuse = gpd.read_file("data/Land-Use-All.shp")
 
 #NOT COMPLETED YET
 #load all flood zone 2 - raster 
@@ -243,22 +241,42 @@ manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 # Saving outputs to a new shapefile -----
 
 #new natural land polygons to new shapefile
-natural_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/natural_clean.shp")
+natural_clean.to_file("out/natural_clean.shp")
 
 #new manmade land polygons to new shapefile
-manmade_clean.to_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO\DISSERTATION/dissertation-code2/out/manmade_clean.shp")
+manmade_clean.to_file("out/manmade_clean.shp")
 
 
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
 #load all natural land - vector
-natural_clean = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/out/natural_clean.shp")
+natural_clean = gpd.read_file("out/natural_clean.shp")
 
 #load all manmade surfaces - vector
-natural_clean = gpd.read_file("C:/Users/Sophia Soni/OneDrive - The University of Manchester/University/4 - YEAR 4 FINAL GEO/DISSERTATION/dissertation-code2/out/manmade_clean.shp")
+natural_clean = gpd.read_file("out/manmade_clean.shp")
 
 
+# Running Max Inscribed Circle Function ------
+
+natural_mic = compute_mic(
+    natural_clean, 
+    min_radius = MIN_RADIUS, 
+    boundary_buffer = BOUNDARY_BUFFER )
+
+natural_mic = compute_mic(
+    natural_clean, 
+    min_radius = MIN_RADIUS, 
+    boundary_buffer = BOUNDARY_BUFFER )
+
+
+# Saving outputs to a new shapefile -----
+
+#new natural land polygons to new shapefile
+natural_clean.to_file("out/natural_MIC_safe.shp")
+
+#new manmade land polygons to new shapefile
+manmade_clean.to_file("out/manmade_MIC_safe.shp")
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
