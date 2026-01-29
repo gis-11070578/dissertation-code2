@@ -84,7 +84,7 @@ def erase_contours(gdf, erase_geom, land_type):
 MIN_RADIUS = 3
 
 # maximum tank radius (m)
-MAX_RADIUS = 40
+MAX_RADIUS = 55
 
 # clearance - buffer from the polygon edges (m)
 BOUNDARY_BUFFER = 3
@@ -307,7 +307,6 @@ manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 # Plotting all Maps ------------------------------
 
-
 #select by attributes - rivers
 inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
 
@@ -318,8 +317,8 @@ roads = landuse[landuse["Name"].str.contains("Roads")]
 buildings = landuse[landuse["Name"].str.contains("Buildings")]
 
 
-# plot the dataset - 3 different maps -------------
-fig, my_ax = subplots(figsize=(7, 4))
+# plot the dataset -------------
+fig, my_ax = subplots(figsize=(8, 4))
 
 # remove axes
 my_ax.axis('off')
@@ -329,7 +328,7 @@ fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
 
 #USER DEFINED PARAMETER
 #1000m buffer around the border itself, to give us some context)
-CSO_ZOOM_BUFFER = 200
+CSO_ZOOM_BUFFER = 350
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
@@ -346,6 +345,7 @@ natural_clean.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'green',  linewidt
 
 #manmade land cleaned
 manmade_clean.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
+
 
 #land use extras -----
 
@@ -375,9 +375,10 @@ manmade_mic.plot(ax = my_ax,
 
 
 #CSO Plot ---------
-cso.plot(ax = my_ax, color = 'red', markersize =5)
-outfall.plot(ax = my_ax, color = 'blue', markersize =5)
-cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 2)
+cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
+cso.plot(ax = my_ax, color = 'red', markersize =9)
+outfall.plot(ax = my_ax, color = 'blue', markersize =9)
+
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
