@@ -66,12 +66,12 @@ def erase_contours(gdf, erase_geom, land_type):
         output_polygons.append({
             "ID": idx,
             "Land_type": land_type, 
-            "Geometry": new_geom })
+            "geometry": new_geom })
 
     #output new shapes with all new natural land polygons
     return gpd.GeoDataFrame(
         output_polygons, 
-        geometry = "Geometry",
+        geometry = "geometry",
         crs=gdf.crs)
 
 
@@ -134,8 +134,8 @@ def compute_mic(gdf, min_radius, boundary_buffer):
         #radius is distance from centre to boundary pt
         radius = centre.distance(boundary_pt)
         
-        #if the radius is less than the minimum radius parameter - then skip/ignore
-        if radius > min_radius: 
+        #if the radius is more than the minimum radius parameter - then skip/ignore
+        if radius < min_radius: 
             continue 
         
         #creating a circle variable to output
@@ -146,12 +146,12 @@ def compute_mic(gdf, min_radius, boundary_buffer):
             "ID": idx, 
             "Radius": radius, 
             "Diameter": radius *2,
-            "Geometry": circle })
+            "geometry": circle })
         
     #output new shapes with all new circles within polygon buffer
     return gpd.GeoDataFrame(
         mic_results, 
-        geometry = "Geometry",
+        geometry = "geometry",
         crs=gdf.crs)
         
 
@@ -254,7 +254,7 @@ manmade_clean.to_file("out/manmade_clean.shp")
 natural_clean = gpd.read_file("out/natural_clean.shp")
 
 #load all manmade surfaces - vector
-natural_clean = gpd.read_file("out/manmade_clean.shp")
+manmade_clean = gpd.read_file("out/manmade_clean.shp")
 
 
 # Running Max Inscribed Circle Function ------
@@ -264,7 +264,7 @@ natural_mic = compute_mic(
     min_radius = MIN_RADIUS, 
     boundary_buffer = BOUNDARY_BUFFER )
 
-natural_mic = compute_mic(
+manmade_mic = compute_mic(
     natural_clean, 
     min_radius = MIN_RADIUS, 
     boundary_buffer = BOUNDARY_BUFFER )
@@ -273,10 +273,10 @@ natural_mic = compute_mic(
 # Saving outputs to a new shapefile -----
 
 #new natural land polygons to new shapefile
-natural_clean.to_file("out/natural_MIC_safe.shp")
+natural_mic.to_file("out/natural_MIC_safe.shp")
 
 #new manmade land polygons to new shapefile
-manmade_clean.to_file("out/manmade_MIC_safe.shp")
+manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
