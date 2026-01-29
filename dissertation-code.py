@@ -139,8 +139,10 @@ def comute_mic(gdf, min_radius, boundary_clearance):
             continue 
         
         #creating a circle variable to output
+        circle = centre.buffer(radius)
         
         #append the circles in the new array
+        
         
         #return output
         
