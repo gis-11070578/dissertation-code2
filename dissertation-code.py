@@ -171,6 +171,15 @@ contours = gpd.read_file("data/SlopeContour_polygon.shp")
 #load all landuse - vector
 landuse = gpd.read_file("data/Land-Use-All.shp")
 
+#load Bath CSO - vector
+cso = gpd.read_file("data/BathLambridgeCSO.shp")
+
+#load Bath Outfall - vector
+outfall = gpd.read_file("data/BathLambridgeOutfall.shp")
+
+#load Bath CSO to outfall - vector
+cso2outfall = gpd.read_file("data/BathCSO2Outfall.shp")
+
 #NOT COMPLETED YET
 #load all flood zone 2 - raster 
 #floodzone_2 = rio_open("../data/")
@@ -181,6 +190,11 @@ landuse = gpd.read_file("data/Land-Use-All.shp")
 #ensure all the same CRS -------
 contours = contours.to_crs(landuse.crs)
 
+cso = cso.to_crs(landuse.crs)
+
+outfall = outfall.to_crs(landuse.crs)
+
+cso2outfall = cso2outfall.to_crs(landuse.crs)
 
 
 # SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
@@ -293,6 +307,7 @@ manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 # Plotting all Maps ------------------------------
 
+
 #select by attributes - rivers
 inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
 
@@ -312,12 +327,17 @@ my_ax.axis('off')
 #creating title
 fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
 
+#USER DEFINED PARAMETER
+#1000m buffer around the border itself, to give us some context)
+CSO_ZOOM_BUFFER = 50
 
 # extract the bounds from the CSO layer
-#minx, miny, maxx, maxy = contours.iloc[0].bounds
+cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
+minx, miny, maxx, maxy = cso.total_bounds
 
-# set bounds (10000m buffer around the border itself, to give us some context)
-#buffer = 50
+my_ax.set_xlim([minx, maxx])
+my_ax.set_ylim([miny, maxy])
+
 
 # plotting cleaned land use polygons -------
 
@@ -352,6 +372,12 @@ manmade_mic.plot(ax = my_ax,
                    color = 'lightgrey', 
                    edgecolor = 'black',  
                    linewidth = 1)
+
+
+#CSO Plot ---------
+cso.plot(ax = my_ax, color = 'red', markersize =5)
+outfall.plot(ax = my_ax, color = 'blue', markersize =5)
+cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 2)
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
