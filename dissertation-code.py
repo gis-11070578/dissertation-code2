@@ -329,11 +329,11 @@ fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
 
 #USER DEFINED PARAMETER
 #1000m buffer around the border itself, to give us some context)
-CSO_ZOOM_BUFFER = 50
+CSO_ZOOM_BUFFER = 200
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
-minx, miny, maxx, maxy = cso.total_bounds
+minx, miny, maxx, maxy = cso_buffer.total_bounds
 
 my_ax.set_xlim([minx, maxx])
 my_ax.set_ylim([miny, maxy])
