@@ -121,14 +121,15 @@ def comute_mic(gdf, min_radius, boundary_clearance):
         #running the max inscribed circle tool 
         mic_line = maximum_inscribed_circle(safe_poly)
         
-        #output should be one line coords 
-        #centre point (x), nearest boundary point (y)
-        #isinstance = checking if outputting linestring 
-        
-        
-        #length of linestring should be 2 
+        #output should be one line coords
+        #checking if not outputting linestring or length is not equal to 2 - skip
+        if not isinstance(mic_line, LineString) or len(mic_line.coords) != 2:
+            continue
         
         #creating variables for each point and line that we want
+        #centre point (x), nearest boundary point (y)
+        centre = Point(mic_line.coords[0])
+        
         
         #if the radius is less than the minimum radius parameter
         
