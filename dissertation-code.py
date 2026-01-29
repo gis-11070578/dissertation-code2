@@ -206,15 +206,15 @@ bad_contours = contours[
     (contours["ContourMax"] <= ELEV_MAX)]
 
 #number of attribute rows that were removed - from arcgis 
-print(f"Contour rows removed: {len(bad_contours)}")
+#print(f"Contour rows removed: {len(bad_contours)}")
 
 #merging all bad contours (so that its easy to erase)
 bad_geom = unary_union(bad_contours.geometry)
 
-print("Any intersections at all?:",
-      landuse.intersects(bad_geom).sum())
+#print("Any intersections at all?:",
+      #landuse.intersects(bad_geom).sum())
 
-print("Bad geom is empty?:", bad_geom.is_empty)
+#("Bad geom is empty?:", bad_geom.is_empty)
 
 
 # Splitting Land Use Types -----
@@ -227,8 +227,8 @@ natural_land = landuse[landuse["Name"].str.contains("Natural Land")]
 manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 
 #printing a count of all raw polygons in attributes
-print(f"Natural RAW Polygons: {len(natural_land)}")
-print(f"Manmade RAW Polygons: {len(manmade_land)}")
+#print(f"Natural RAW Polygons: {len(natural_land)}")
+#print(f"Manmade RAW Polygons: {len(manmade_land)}")
 
 
 # Running the erase contour function -----
@@ -294,7 +294,7 @@ manmade_mic.to_file("out/manmade_MIC_safe.shp")
 # Plotting all Maps ------------------------------
 
 # plot the dataset - 3 different maps -----------
-fig, my_ax = subplots(figsize=(12, 12))
+fig, my_ax = subplots(figsize=(9, 5))
 
 # remove axes
 my_ax.axis('off')
@@ -306,29 +306,33 @@ fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
 
 #natural land cleaned
 natural_clean.plot(ax = my_ax, 
-                   color = 'green', 
+                   color = '#ccebc5', 
                    edgecolor = 'green',  
                    linewidth = 0.3)
 
 #manmade land cleaned
 manmade_clean.plot(ax = my_ax, 
-                   color = 'grey', 
+                   color = 'lightgrey', 
                    edgecolor = 'grey',  
                    linewidth = 0.3)
 
 # plotting MIC safe circles -------
 
-#natural land cleaned
+#natural land MIC
 natural_mic.plot(ax = my_ax, 
-                   color = None, 
+                   color = '#ccebc5', 
                    edgecolor = 'darkgreen',  
                    linewidth = 1)
 
-#manmade land cleaned
+#manmade land MIC
 manmade_mic.plot(ax = my_ax, 
-                   color = None, 
+                   color = 'lightgrey', 
                    edgecolor = 'black',  
                    linewidth = 1)
+
+# save the result
+savefig('out/Visualising Maps.png', bbox_inches='tight')
+#print("done!")  
 
 # --- NO CODE BELOW HERE ---
 
