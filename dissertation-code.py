@@ -297,19 +297,32 @@ natural_mic.to_file("out/natural_MIC_safe.shp")
 #new manmade land polygons to new shapefile
 manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
-# ---> combined MIC safe zones 
+#read new landuse land polygons
+natural_MIC_safe = gpd.read_file("out/natural_MIC_safe.shp")
+manmade_MIC_safe = gpd.read_file("out/manmade_MIC_safe.shp")
+
+#set to same coord system
+natural_MIC_safe = natural_MIC_safe.to_crs(landuse.crs)
+manmade_MIC_safe = manmade_MIC_safe.to_crs(landuse.crs)
+
+#merge and combine both shapefiles
+landuse_MIC_safe = gpd.concat([natural_MIC_safe, manmade_MIC_safe])
+
+#export to shapefile
+landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
 
 #read file for combined land use MIC - only natural and manmade surfaces
-
+MIClanduse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
-W_DISTANCE = 
-W_LANDUSE = 
-W_TANKSIZE = 
-W_FLOODZONE = 
+# W_DISTANCE = 
+# W_LANDUSE = 
+# W_TANKSIZE = 
+# W_FLOODZONE_2 =
+# W_FLOODZONE_3 = 
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
@@ -317,6 +330,9 @@ W_FLOODZONE =
 
 #if mic circles are within the buffer zone 
 #then yes - anything outside - leave 
+
+#score = if distance < max_distance distance / max_distance else 0
+
 
 # LANDUSE SCORING ----
 #total land use is equal to 1
@@ -327,11 +343,15 @@ W_FLOODZONE =
 
 #total score = 
 
+#score = int(man_made.intersects(circle))
+
+
 # TANK SIZE SCORING ----
+
+#score = ((tank.area * height) - (min_area * height)) / ((max_area * height) - (min_area * height))
 
 
 # FLOOD RISK SCORING ----
-#total flood zones is equal to 1
 
 #flood zone 2 - medium risk 
 #if mic intersect with flood zone 2 - score
@@ -339,11 +359,13 @@ W_FLOODZONE =
 #flood zone 3 - high risk
 #if mic intersect with flood zone 3 - score
 
-#total score =
 
 
 # FINAL WEIGHTING SCORE ----
 
+# sum(score) x weight
+
+# final_score = sum([score * weight for score, weight in zip(scores, weights)])
 
 
 # Plotting all Maps ------------------------------
