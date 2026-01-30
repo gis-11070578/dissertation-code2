@@ -15,7 +15,6 @@ import geopandas as gpd
 from shapely import unary_union
 from shapely import maximum_inscribed_circle
 from shapely.geometry import Point, LineString
-import matplotlib.pyplot as plt
 from matplotlib.pyplot import subplots, savefig
 
 # All Functions ---------------------------------
@@ -78,7 +77,7 @@ def erase_contours(gdf, erase_geom, land_type):
 
 
 
-#USER DEFINED PARAMETERS - FOR COMPUTING THE MAX CIRCLE
+#USER DEFINED PARAMETERS - FOR COMPUTING THE MAX CIRCLE ----
 
 # minimum tank radius (m)
 MIN_RADIUS = 3
@@ -187,13 +186,11 @@ cso2outfall = gpd.read_file("data/BathCSO2Outfall.shp")
 #load all flood zone 3 - raster 
 #floodzone_3 = rio_open("../data/")
 
-#ensure all the same CRS -------
+#ensure all the same CRS ---------
+
 contours = contours.to_crs(landuse.crs)
-
 cso = cso.to_crs(landuse.crs)
-
 outfall = outfall.to_crs(landuse.crs)
-
 cso2outfall = cso2outfall.to_crs(landuse.crs)
 
 
@@ -292,7 +289,7 @@ manmade_mic = compute_mic(
     boundary_buffer = BOUNDARY_BUFFER )
 
 
-# Saving outputs to a new shapefile -----
+# Saving outputs to a new shapefile -------
 
 #new natural land polygons to new shapefile
 natural_mic.to_file("out/natural_MIC_safe.shp")
@@ -300,8 +297,52 @@ natural_mic.to_file("out/natural_MIC_safe.shp")
 #new manmade land polygons to new shapefile
 manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
+# ---> combined MIC safe zones 
+
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
+
+#read file for combined land use MIC - only natural and manmade surfaces
+
+
+# USER DEFINED WEIGHTING (must sum up to 1.0) ----
+W_DISTANCE = 
+W_LANDUSE = 
+W_TANKSIZE = 
+W_FLOODZONE = 
+
+
+# DISTANCE FROM CSO - NEED LOCATION ----
+#create user defined buffer zone - from cso point
+
+#if mic circles are within the buffer zone 
+#then yes - anything outside - leave 
+
+# LANDUSE SCORING ----
+#total land use is equal to 1
+
+#if mic intersects manmade surfaces - score 
+
+#if mic intersects natural land - score
+
+#total score = 
+
+# TANK SIZE SCORING ----
+
+
+# FLOOD RISK SCORING ----
+#total flood zones is equal to 1
+
+#flood zone 2 - medium risk 
+#if mic intersect with flood zone 2 - score
+
+#flood zone 3 - high risk
+#if mic intersect with flood zone 3 - score
+
+#total score =
+
+
+# FINAL WEIGHTING SCORE ----
 
 
 
@@ -327,7 +368,7 @@ my_ax.axis('off')
 fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
 
 #USER DEFINED PARAMETER
-#1000m buffer around the border itself, to give us some context)
+#buffer around the border itself - to give us some context
 CSO_ZOOM_BUFFER = 350
 
 # extract the bounds from the CSO layer
