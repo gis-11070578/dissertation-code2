@@ -327,6 +327,7 @@ MIClanduse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # DISTANCE FROM CSO - NEED LOCATION ----
 #create user defined buffer zone - from cso point
+MAX_DISTANCE = 1000 #1km - meters
 
 #if mic circles are within the buffer zone 
 #then yes - anything outside - leave 
