@@ -319,11 +319,11 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
-W_DISTANCE = 
-W_LANDUSE = 
-W_TANKSIZE = 
-W_FLOODZONE_2 =
-W_FLOODZONE_3 = 
+W_DISTANCE = 0.2
+W_LANDUSE = 0.2
+W_TANKSIZE = 0.2
+W_FLOODZONE_2 = 0.2
+W_FLOODZONE_3 = 0.2
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
@@ -340,7 +340,7 @@ cso_buffer = cso_point.buffer(MAX_DISTANCE)
 MIC_landuse["score_distance"] = 0.0 
 
 #loop through each row in the MIC circles
-if i, row in MICLanduse.iterrows():
+for i, row in MIC_landuse.iterrows():
     
     #geometry of the centre of the circles
     centre = row.geometry.centroid 
@@ -351,12 +351,15 @@ if i, row in MICLanduse.iterrows():
     #if the distance from the cso is less than the max distance 
     if dist <= MAX_DISTANCE: 
         
-        #new field "score distance" = update
-        MIClanduse.loc = [i, "score_distance"] = 1 (distance / MAX_DISTANCE)
+        #new score - higher score (1 at CSO, 0 at max distance)
+        score = 1 - (dist / MAX_DISTANCE)
         
-        #else - then make the score 0
-        else:
-        MIClanduse.loc = [i, "score_distance"] = 0.0
+        #new field "score distance" = update
+        MIC_landuse.loc[i, "score_distance"] = score
+        
+    #else - then make the score 0
+    else:
+        MIC_landuse.loc[i, "score_distance"] = 0.0
 
 
 # LANDUSE SCORING ----
