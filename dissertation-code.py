@@ -11,6 +11,7 @@ start_time = perf_counter()
 
 # All Imports -------------------------------
 
+import numpy as np
 import geopandas as gpd
 from shapely import unary_union
 from shapely import maximum_inscribed_circle
@@ -363,7 +364,7 @@ for i, row in MIC_landuse.iterrows():
 
 
 # LANDUSE SCORING -----
-#land use - new scoring field is 0 
+#loop through each row in the MIC circles
 for i, row in MIC_landuse.iterrows(): 
     
     #circle geometry for each MIC 
@@ -383,8 +384,25 @@ for i, row in MIC_landuse.iterrows():
 
 
 # TANK SIZE SCORING ----
+#control variable
+TANK_HEIGHT = 6
 
-#score = ((tank.area * height) - (min_area * height)) / ((max_area * height) - (min_area * height))
+MIN_AREA = np.pi * MIN_RADIUS**2 
+MAX_AREA = np.pi * MAX_RADIUS**2
+
+#creating a new field with 0
+MIC_landuse["score_tanksize"] = 0.0 
+
+#loop through each row in the MIC circles
+for i, row in MIC_landuse.iterrows(): 
+    
+    #geometry of the area circles
+    tank_area = row.geometry.area
+    
+    #formula - volume based score
+    score = ((tank_area * TANK_HEIGHT) - (MIN_AREA * TANK_HEIGHT)) / ((MAX_AREA * TANK_HEIGHT) - (MIN_AREA * TANK_HEIGHT))
+
+    
 
 
 # FLOOD RISK SCORING ----
