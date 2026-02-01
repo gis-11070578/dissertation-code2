@@ -139,10 +139,14 @@ def compute_mic(gdf, min_radius, max_radius, boundary_buffer):
         #radius is distance from centre to boundary pt
         radius = centre.distance(boundary_pt)
         
-        #if radius is larger than max radius - skip
         #OR radius is smaller than min radius - skip
-        if radius > max_radius or radius < min_radius:
+        if radius < MIN_RADIUS:
             continue 
+        
+        #INSTEAD OF disgarding radius larger than max radius
+        #cap radius at max size 
+        if radius > MAX_RADIUS: 
+            radius = MAX_RADIUS
         
         #creating a circle variable to output
         circle = centre.buffer(radius)
