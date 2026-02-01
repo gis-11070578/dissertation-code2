@@ -364,10 +364,10 @@ for i, row in MIC_landuse.iterrows():
 
 # LANDUSE SCORING -----
 #land use - new scoring field is 0 
-for i, row in MIC_landuse.iterrow(): 
+for i, row in MIC_landuse.iterrows(): 
     
     #circle geometry for each MIC 
-    circle = row. geometry
+    circle = row.geometry
 
     #if mic intersects manmade surfaces - score new field
     if manmade_land.intersects(circle).any(): 
@@ -389,11 +389,29 @@ for i, row in MIC_landuse.iterrow():
 
 # FLOOD RISK SCORING ----
 
-#flood zone 2 - medium risk 
-#if mic intersect with flood zone 2 - score
+#insuring that all non intersecting circles are highly rated
+MIC_landuse["score_flood_2"] = 1.0
+MIC_landuse["score_flood_3"] = 1.0
 
-#flood zone 3 - high risk
-#if mic intersect with flood zone 3 - score
+# FLOOD ZONE 2 ----
+#flood zone 2 - medium risk 
+
+#land use - new scoring field is 0 
+for i, row in MIC_landuse.iterrows(): 
+    
+    #circle geometry for each MIC 
+    circle = row.geometry
+
+    #if mic intersect with flood zone 2 - score
+    if floodzone_2.intersects(circle).any():
+        MIC_landuse.loc[i, "score_flood_2"] = 0.4
+
+# FLOOD ZONE 3 ----
+#flood zone 3 - high risk 
+
+    #if mic intersect with flood zone 3 - score
+    if floodzone_3.intersects(circle).any():
+        MIC_landuse.loc[i, "score_flood_3"] = 0.1
 
 
 
