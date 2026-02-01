@@ -185,10 +185,10 @@ outfall = gpd.read_file("data/BathLambridgeOutfall.shp")
 cso2outfall = gpd.read_file("data/BathCSO2Outfall.shp")
 
 #load all flood zone 2 - raster 
-floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip")
+floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip.shp")
 
 #load all flood zone 3 - raster 
-floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip")
+floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip.shp")
 
 #ensure all the same CRS ---------
 
@@ -312,7 +312,7 @@ natural_MIC_safe = natural_MIC_safe.to_crs(landuse.crs)
 manmade_MIC_safe = manmade_MIC_safe.to_crs(landuse.crs)
 
 #merge and combine both shapefiles
-landuse_MIC_safe = gpd.concat([natural_MIC_safe, manmade_MIC_safe])
+landuse_MIC_safe = gpd.pd.concat([natural_MIC_safe, manmade_MIC_safe])
 
 #export to shapefile
 landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
@@ -408,7 +408,7 @@ for i, row in MIC_landuse.iterrows():
 
     #values between 0 and 1 
     if score < 0: 
-        score is 0.0 
+        score = 0.0 
     elif score > 1: 
         score = 1.0
         
@@ -424,7 +424,7 @@ MIC_landuse["score_flood_3"] = 1.0
 # FLOOD ZONE 2 ----
 #flood zone 2 - medium risk 
 
-#land use - new scoring field is 0 
+#loop through each row in the MIC circles
 for i, row in MIC_landuse.iterrows(): 
     
     #circle geometry for each MIC 
@@ -445,10 +445,27 @@ for i, row in MIC_landuse.iterrows():
 
 # FINAL WEIGHTING SCORE ----
 
-# sum(score) x weight
+#creating a new field with 0
+MIC_landuse["final_score"] = 0.0
 
+#loop through each row in the MIC circles
+for i, row in MIC_landuse.iterrows(): 
+    
+    #final calulating of score - sum(score) x weight
+    final = (
+        row["score_distance"] * W_DISTANCE + 
+        row["score_landuse"] * W_LANDUSE +
+        row["score_tanksize"] * W_TANKSIZE +
+        row["score_flood_2"] * W_FLOODZONE_2 +
+        row["score_flood_3"] * W_FLOODZONE_3)
+    
 # final_score = sum([score * weight for score, weight in zip(scores, weights)])
 
+#final moment of adding to new field 
+MIC_landuse.loc[i, "final_score"] = final
+
+#exporting new shapefile
+MIC_landuse.to_file("out/MIC_final_weighted.shp")
 
 # Plotting all Maps ------------------------------
 
@@ -507,17 +524,19 @@ buildings.plot(ax = my_ax, color = '#cbc3e3', edgecolor = 'purple',  linewidth =
 # plotting MIC safe circles -------
 
 #natural land MIC
-natural_mic.plot(ax = my_ax, 
-                   color = '#ccebc5', 
-                   edgecolor = 'darkgreen',  
-                   linewidth = 1)
+#natural_mic.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'darkgreen',  linewidth = 1)
 
 #manmade land MIC
-manmade_mic.plot(ax = my_ax, 
-                   color = 'lightgrey', 
-                   edgecolor = 'black',  
-                   linewidth = 1)
+#manmade_mic.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'black',  linewidth = 1)
 
+MIC_landuse.plot(
+    ax=my_ax,
+    column="final_score",
+    cmap="RdYlGn",
+    legend=True,
+    edgecolor="black",
+    linewidth=0.7
+)
 
 #CSO Plot ---------
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
