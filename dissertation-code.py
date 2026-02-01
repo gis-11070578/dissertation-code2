@@ -362,16 +362,24 @@ for i, row in MIC_landuse.iterrows():
         MIC_landuse.loc[i, "score_distance"] = 0.0
 
 
-# LANDUSE SCORING ----
-#total land use is equal to 1
+# LANDUSE SCORING -----
+#land use - new scoring field is 0 
+for i, row in MIC_landuse.iterrow(): 
+    
+    #circle geometry for each MIC 
+    circle = row. geometry
 
-#if mic intersects manmade surfaces - score 
-
-#if mic intersects natural land - score
-
-#total score = 
-
-#score = int(man_made.intersects(circle))
+    #if mic intersects manmade surfaces - score new field
+    if manmade_land.intersects(circle).any(): 
+        MIC_landuse.loc[i, "score_landuse"] = 0.5
+    
+    #if mic intersects natural land - score new field
+    elif natural_land.intersects(circle).any(): 
+        MIC_landuse.loc[i, "score_landuse"] = 0.5
+    
+    #else then score 0
+    else: 
+        MIC_landuse.loc[i, "score_landuse"] = 0.0
 
 
 # TANK SIZE SCORING ----
