@@ -402,7 +402,13 @@ for i, row in MIC_landuse.iterrows():
     #formula - volume based score
     score = ((tank_area * TANK_HEIGHT) - (MIN_AREA * TANK_HEIGHT)) / ((MAX_AREA * TANK_HEIGHT) - (MIN_AREA * TANK_HEIGHT))
 
-    
+    #values between 0 and 1 
+    if score < 0: 
+        score is 0.0 
+    elif score > 1: 
+        score = 1.0
+        
+    MIC_landuse.loc[i, "score_tanksize"] = score
 
 
 # FLOOD RISK SCORING ----
