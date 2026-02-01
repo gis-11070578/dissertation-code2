@@ -348,8 +348,15 @@ if i, row in MICLanduse.iterrows():
     #geometry - distance from the CSO to the centre of the circle
     dist = centre.distance(cso_point)
 
+    #if the distance from the cso is less than the max distance 
     if dist <= MAX_DISTANCE: 
-        distance / max_distance else 0
+        
+        #new field "score distance" = update
+        MIClanduse.loc = [i, "score_distance"] = 1 (distance / MAX_DISTANCE)
+        
+        #else - then make the score 0
+        else:
+        MIClanduse.loc = [i, "score_distance"] = 0.0
 
 
 # LANDUSE SCORING ----
