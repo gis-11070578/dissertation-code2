@@ -179,12 +179,11 @@ outfall = gpd.read_file("data/BathLambridgeOutfall.shp")
 #load Bath CSO to outfall - vector
 cso2outfall = gpd.read_file("data/BathCSO2Outfall.shp")
 
-#NOT COMPLETED YET
 #load all flood zone 2 - raster 
-#floodzone_2 = rio_open("../data/")
+floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip")
 
 #load all flood zone 3 - raster 
-#floodzone_3 = rio_open("../data/")
+floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip")
 
 #ensure all the same CRS ---------
 
@@ -192,6 +191,8 @@ contours = contours.to_crs(landuse.crs)
 cso = cso.to_crs(landuse.crs)
 outfall = outfall.to_crs(landuse.crs)
 cso2outfall = cso2outfall.to_crs(landuse.crs)
+floodzone_2 = floodzone_2.to_crs(landuse.crs)
+floodzone_3 = floodzone_3.to_crs(landuse.crs)
 
 
 # SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
@@ -318,11 +319,11 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
-# W_DISTANCE = 
-# W_LANDUSE = 
-# W_TANKSIZE = 
-# W_FLOODZONE_2 =
-# W_FLOODZONE_3 = 
+W_DISTANCE = 
+W_LANDUSE = 
+W_TANKSIZE = 
+W_FLOODZONE_2 =
+W_FLOODZONE_3 = 
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
@@ -338,10 +339,17 @@ cso_buffer = cso_point.buffer(MAX_DISTANCE)
 #creating a new field with 0
 MIC_landuse["score_distance"] = 0.0 
 
-#if mic circles are within the buffer zone 
-#then yes - anything outside - leave 
+#loop through each row in the MIC circles
+if i, row in MICLanduse.iterrows():
+    
+    #geometry of the centre of the circles
+    centre = row.geometry.centroid 
+    
+    #geometry - distance from the CSO to the centre of the circle
+    dist = centre.distance(cso_point)
 
-#score = if distance < max_distance distance / max_distance else 0
+    if dist <= MAX_DISTANCE: 
+        distance / max_distance else 0
 
 
 # LANDUSE SCORING ----
