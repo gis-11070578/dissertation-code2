@@ -315,7 +315,7 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
 
 #read file for combined land use MIC - only natural and manmade surfaces
-MIClanduse = gpd.read_file("out/landuse_MIC_safe.shp")
+MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
 # W_DISTANCE = 
@@ -328,6 +328,15 @@ MIClanduse = gpd.read_file("out/landuse_MIC_safe.shp")
 # DISTANCE FROM CSO - NEED LOCATION ----
 #create user defined buffer zone - from cso point
 MAX_DISTANCE = 1000 #1km - meters
+
+#create a CSO point to buffer from
+cso_point = cso.geometry.iloc[0]
+
+#CSO buffer made from point - using max distance
+cso_buffer = cso_point.buffer(MAX_DISTANCE)
+
+#creating a new field with 0
+MIC_landuse["score_distance"] = 0.0 
 
 #if mic circles are within the buffer zone 
 #then yes - anything outside - leave 
