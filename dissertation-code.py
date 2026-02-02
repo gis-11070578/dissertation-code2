@@ -16,7 +16,8 @@ import geopandas as gpd
 from shapely import unary_union
 from shapely import maximum_inscribed_circle
 from shapely.geometry import Point, LineString
-from matplotlib.pyplot import subplots, savefig
+from matplotlib_scalebar.scalebar import ScaleBar
+from matplotlib.pyplot import subplots, savefig, title
 
 # All Functions ---------------------------------
 
@@ -376,11 +377,11 @@ for i, row in MIC_landuse.iterrows():
 
     #if mic intersects manmade surfaces - score new field
     if manmade_land.intersects(circle).any(): 
-        MIC_landuse.loc[i, "score_landuse"] = 0.5
+        MIC_landuse.loc[i, "score_landuse"] = 1
     
     #if mic intersects natural land - score new field
     elif natural_land.intersects(circle).any(): 
-        MIC_landuse.loc[i, "score_landuse"] = 0.5
+        MIC_landuse.loc[i, "score_landuse"] = 0.3
     
     #else then score 0
     else: 
@@ -459,13 +460,15 @@ for i, row in MIC_landuse.iterrows():
         row["score_flood_2"] * W_FLOODZONE_2 +
         row["score_flood_3"] * W_FLOODZONE_3)
     
-# final_score = sum([score * weight for score, weight in zip(scores, weights)])
+    # final_score = sum([score * weight for score, weight in zip(scores, weights)])
 
-#final moment of adding to new field 
-MIC_landuse.loc[i, "final_score"] = final
+    #final moment of adding to new field 
+    MIC_landuse.loc[i, "final_score"] = final
 
+#EXPORT SHAPEFILE -----
 #exporting new shapefile
 MIC_landuse.to_file("out/MIC_final_weighted.shp")
+
 
 # Plotting all Maps ------------------------------
 
@@ -486,7 +489,10 @@ fig, my_ax = subplots(figsize=(8, 4))
 my_ax.axis('off')
 
 #creating title
-fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
+#fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
+
+# set title
+title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
 
 #USER DEFINED PARAMETER
 #buffer around the border itself - to give us some context
@@ -532,17 +538,27 @@ buildings.plot(ax = my_ax, color = '#cbc3e3', edgecolor = 'purple',  linewidth =
 MIC_landuse.plot(
     ax=my_ax,
     column="final_score",
-    cmap="RdYlGn",
+    cmap="Reds",
     legend=True,
     edgecolor="black",
-    linewidth=0.7
-)
+    linewidth=0.6)
 
 #CSO Plot ---------
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
 cso.plot(ax = my_ax, color = 'red', markersize =9)
 outfall.plot(ax = my_ax, color = 'blue', markersize =9)
 
+# Extras on the map ---------
+
+# add north arrow
+# arrow - left/right, up/down, north sign up/down
+x, y, arrow_length = 0.95, 0.98, 0.1
+my_ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
+	arrowprops=dict(facecolor='black', width=5, headwidth=15),
+	ha='center', va='center', fontsize=10, xycoords=my_ax.transAxes)
+
+# add scalebar
+my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
