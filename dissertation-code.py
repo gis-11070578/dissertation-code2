@@ -546,8 +546,8 @@ MIC_landuse.plot(
     linewidth=0.6)
 
 #CSO Plot ---------
+cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=12, linewidths=0.2)
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
-cso.plot(ax = my_ax, color = 'yellow', markersize =9)
 #outfall.plot(ax = my_ax, color = 'blue', markersize =9)
 
 # Extras on the map ---------
@@ -567,8 +567,8 @@ my_ax.legend(handles=[
         Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
         Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
         Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-        Line2D([0], [0], marker='o', markerfacecolor='yellow',  markersize=6, label='CSO')
-    ],loc='upper left')
+        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=6, label='Lambridge CSO')
+    ],loc='upper left', fontsize=6)
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
