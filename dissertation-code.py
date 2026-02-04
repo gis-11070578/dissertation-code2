@@ -14,6 +14,8 @@ start_time = perf_counter()
 import numpy as np
 import geopandas as gpd
 from shapely import unary_union
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 from shapely import maximum_inscribed_circle
 from shapely.geometry import Point, LineString
 from matplotlib_scalebar.scalebar import ScaleBar
@@ -390,7 +392,7 @@ for i, row in MIC_landuse.iterrows():
 
 # TANK SIZE SCORING ----
 #control variable
-TANK_HEIGHT = 6
+TANK_HEIGHT = 10
 
 MIN_AREA = np.pi * MIN_RADIUS**2 
 MAX_AREA = np.pi * MAX_RADIUS**2
@@ -470,7 +472,7 @@ for i, row in MIC_landuse.iterrows():
 MIC_landuse.to_file("out/MIC_final_weighted.shp")
 
 
-# Plotting all Maps ------------------------------
+# PLOTTING ALL MAPS ------------------------------
 
 #select by attributes - rivers
 inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
@@ -496,7 +498,7 @@ title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
 
 #USER DEFINED PARAMETER
 #buffer around the border itself - to give us some context
-CSO_ZOOM_BUFFER = 350
+CSO_ZOOM_BUFFER = 400
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
@@ -512,7 +514,7 @@ my_ax.set_ylim([miny, maxy])
 natural_clean.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'green',  linewidth = 0.3)
 
 #manmade land cleaned
-manmade_clean.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
+manmade_clean.plot(ax = my_ax, color = '#aa74b0', edgecolor = 'purple',  linewidth = 0.3)
 
 
 #land use extras -----
@@ -521,10 +523,10 @@ manmade_clean.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewid
 inland_water.plot(ax = my_ax, color = 'lightblue', edgecolor = 'blue',  linewidth = 0.3)
 
 #natural land cleaned
-roads.plot(ax = my_ax, color = '#fed9a6', edgecolor = 'orange',  linewidth = 0.3)
+roads.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
 #natural land cleaned
-buildings.plot(ax = my_ax, color = '#cbc3e3', edgecolor = 'purple',  linewidth = 0.3)
+buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
 
 # plotting MIC safe circles -------
@@ -545,8 +547,8 @@ MIC_landuse.plot(
 
 #CSO Plot ---------
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
-cso.plot(ax = my_ax, color = 'red', markersize =9)
-outfall.plot(ax = my_ax, color = 'blue', markersize =9)
+cso.plot(ax = my_ax, color = 'yellow', markersize =9)
+#outfall.plot(ax = my_ax, color = 'blue', markersize =9)
 
 # Extras on the map ---------
 
@@ -559,6 +561,14 @@ my_ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
 
 # add scalebar
 my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
+
+# add legend
+my_ax.legend(handles=[
+        Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
+        Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
+        Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
+        Line2D([0], [0], marker='o', markerfacecolor='yellow',  markersize=6, label='CSO')
+    ],loc='upper left')
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
