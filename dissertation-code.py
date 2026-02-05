@@ -498,7 +498,7 @@ title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
 
 #USER DEFINED PARAMETER
 #buffer around the border itself - to give us some context
-CSO_ZOOM_BUFFER = 450
+CSO_ZOOM_BUFFER = 150
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
@@ -532,10 +532,10 @@ buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth =
 #plotting flood zones ---- 
 
 #flood zone 2
-floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+#floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
 
 #flood zone 3
-floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+#floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
 
 
 # plotting MIC safe circles -------
@@ -546,26 +546,19 @@ floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewi
 #manmade land MIC
 #manmade_mic.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'black',  linewidth = 1)
 
-MIC_landuse.plot(
-    ax=my_ax,
-    column="final_score",
-    cmap="Reds",
-    legend=True,
-    edgecolor="black",
-    linewidth=0.6)
+#MIC_landuse.plot(
+ #   ax=my_ax,
+ #   column="final_score",
+  #  cmap="Reds",
+  #  legend=True,
+  #  edgecolor="black",
+  #  linewidth=0.6)
 
 #CSO Plot ---------
-cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=12, linewidths=0.2)
+cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=30, linewidths=0.2)
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
-#outfall.plot(ax = my_ax, color = 'blue', markersize =9)
+outfall.plot(ax = my_ax, color = 'blue', markersize =12)
 
-#plotting flood zones ---- 
-
-#flood zone 2
-#floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.3, alpha=0.45)
-
-#flood zone 3
-#floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.3, alpha=0.45)
 
 # Extras on the map ---------
 
@@ -584,10 +577,11 @@ my_ax.legend(handles=[
         Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
         Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
         Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=6, label='Lambridge CSO'),
-        Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
-        Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
-    ],loc='upper left', fontsize=5)
+        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
+        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
+        #Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
+        #Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
+    ],loc='upper left', fontsize=6)
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
