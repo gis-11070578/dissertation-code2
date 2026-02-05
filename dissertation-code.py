@@ -327,11 +327,11 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
-W_DISTANCE = 0.15
-W_LANDUSE = 0.15
+W_DISTANCE = 0.3
+W_LANDUSE = 0.5
 W_TANKSIZE = 0.1
-W_FLOODZONE_2 = 0.3
-W_FLOODZONE_3 = 0.3
+W_FLOODZONE_2 = 0.05
+W_FLOODZONE_3 = 0.05
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
@@ -498,7 +498,7 @@ title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
 
 #USER DEFINED PARAMETER
 #buffer around the border itself - to give us some context
-CSO_ZOOM_BUFFER = 150
+CSO_ZOOM_BUFFER = 350
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
@@ -546,18 +546,18 @@ buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth =
 #manmade land MIC
 #manmade_mic.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'black',  linewidth = 1)
 
-#MIC_landuse.plot(
- #   ax=my_ax,
- #   column="final_score",
-  #  cmap="Reds",
-  #  legend=True,
-  #  edgecolor="black",
-  #  linewidth=0.6)
+MIC_landuse.plot(
+    ax=my_ax,
+    column="final_score",
+    cmap="Reds",
+    legend=True,
+    edgecolor="black",
+    linewidth=0.6)
 
 #CSO Plot ---------
-cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=30, linewidths=0.2)
+cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=20, linewidths=0.2)
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
-outfall.plot(ax = my_ax, color = 'blue', markersize =12)
+#outfall.plot(ax = my_ax, color = 'blue', markersize =12)
 
 
 # Extras on the map ---------
@@ -578,7 +578,7 @@ my_ax.legend(handles=[
         Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
         Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
         Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
-        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
+        #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
         #Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
         #Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
     ],loc='upper left', fontsize=6)
