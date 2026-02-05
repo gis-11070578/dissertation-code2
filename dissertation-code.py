@@ -327,11 +327,11 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
-W_DISTANCE = 0.2
-W_LANDUSE = 0.2
-W_TANKSIZE = 0.2
-W_FLOODZONE_2 = 0.2
-W_FLOODZONE_3 = 0.2
+W_DISTANCE = 0.3
+W_LANDUSE = 0.5
+W_TANKSIZE = 0.1
+W_FLOODZONE_2 = 0.05
+W_FLOODZONE_3 = 0.05
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
@@ -383,7 +383,7 @@ for i, row in MIC_landuse.iterrows():
     
     #if mic intersects natural land - score new field
     elif natural_land.intersects(circle).any(): 
-        MIC_landuse.loc[i, "score_landuse"] = 0.3
+        MIC_landuse.loc[i, "score_landuse"] = 0.5
     
     #else then score 0
     else: 
@@ -498,7 +498,7 @@ title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
 
 #USER DEFINED PARAMETER
 #buffer around the border itself - to give us some context
-CSO_ZOOM_BUFFER = 400
+CSO_ZOOM_BUFFER = 350
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
