@@ -327,11 +327,11 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ----
-W_DISTANCE = 0.3
-W_LANDUSE = 0.5
+W_DISTANCE = 0.15
+W_LANDUSE = 0.15
 W_TANKSIZE = 0.1
-W_FLOODZONE_2 = 0.05
-W_FLOODZONE_3 = 0.05
+W_FLOODZONE_2 = 0.3
+W_FLOODZONE_3 = 0.3
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
@@ -498,7 +498,7 @@ title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
 
 #USER DEFINED PARAMETER
 #buffer around the border itself - to give us some context
-CSO_ZOOM_BUFFER = 350
+CSO_ZOOM_BUFFER = 450
 
 # extract the bounds from the CSO layer
 cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
@@ -529,6 +529,15 @@ roads.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3
 buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
 
+#plotting flood zones ---- 
+
+#flood zone 2
+floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+
+#flood zone 3
+floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+
+
 # plotting MIC safe circles -------
 
 #natural land MIC
@@ -550,6 +559,14 @@ cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=12, linewid
 cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
 #outfall.plot(ax = my_ax, color = 'blue', markersize =9)
 
+#plotting flood zones ---- 
+
+#flood zone 2
+#floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.3, alpha=0.45)
+
+#flood zone 3
+#floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.3, alpha=0.45)
+
 # Extras on the map ---------
 
 # add north arrow
@@ -567,8 +584,10 @@ my_ax.legend(handles=[
         Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
         Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
         Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=6, label='Lambridge CSO')
-    ],loc='upper left', fontsize=6)
+        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=6, label='Lambridge CSO'),
+        Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
+        Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
+    ],loc='upper left', fontsize=5)
 
 # save the result
 savefig('out/Visualising Maps.png', bbox_inches='tight')
