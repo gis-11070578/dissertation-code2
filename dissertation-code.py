@@ -12,6 +12,7 @@ start_time = perf_counter()
 # All Imports -------------------------------
 
 import numpy as np
+from shapely import geopandas
 import geopandas as gpd
 from shapely import unary_union
 from matplotlib.lines import Line2D
@@ -87,7 +88,10 @@ def erase_contours(gdf, erase_geom, land_type):
 MIN_RADIUS = 3
 
 # maximum tank radius (m)
-MAX_RADIUS = 55
+MAX_RADIUS = 55 
+
+# max radius change to 10 or 20m based on previous tanks in the same catchment 
+
 
 # clearance - buffer from the polygon edges (m)
 BOUNDARY_BUFFER = 3
