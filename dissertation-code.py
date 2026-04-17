@@ -205,6 +205,17 @@ floodzone_2 = floodzone_2.to_crs(landuse.crs)
 floodzone_3 = floodzone_3.to_crs(landuse.crs)
 
 
+# pre-processing for plotting the maps ------
+#select by attributes - rivers
+inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
+
+#select by attributes - roads
+roads = landuse[landuse["Name"].str.contains("Roads")]
+
+#select by attributes - buildings
+buildings = landuse[landuse["Name"].str.contains("Buildings")]
+
+
 # SECTION 1 - Cutting each landuse polygon based on elevation cut off --------
 
 #count all polygons that contain "natural land" in the NAME field
@@ -500,11 +511,11 @@ my_ax[3].axis('off')
 my_ax[4].axis('off')
 
 # set title to all grids
-my_ax[0].set_title("Equal Weighting", fontsize = 15)
-my_ax[1].set_title("Distance Priority", fontsize = 15)
-my_ax[2].set_title("Flood Zone Priority", fontsize = 15)
-my_ax[3].set_title("Tank Size Priority", fontsize = 15)
-my_ax[4].set_title("Land Use Priority", fontsize = 15)
+my_ax[0].set_title("Equal Weighting", fontsize = 9)
+my_ax[1].set_title("Distance Priority", fontsize = 9)
+my_ax[2].set_title("Flood Zone Priority", fontsize = 9)
+my_ax[3].set_title("Tank Size Priority", fontsize = 9)
+my_ax[4].set_title("Land Use Priority", fontsize = 9)
 
 
 # FINAL WEIGHTING SCORE LOOP -------
@@ -528,29 +539,13 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
         scenario_gdf["score_flood_3"] * weights["W_FLOODZONE_3"])
     
     # final_score = sum([score * weight for score, weight in zip(scores, weights)])
-
-    #final moment of adding to new field 
     
-    
-    
-#EXPORT SHAPEFILE -----
-#exporting new shapefile
-MIC_landuse.to_file("out/MIC_final_weighted.shp")
-
-# plot maps ---
-
-#select by attributes - rivers
-inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
-
-#select by attributes - roads
-roads = landuse[landuse["Name"].str.contains("Roads")]
-
-#select by attributes - buildings
-buildings = landuse[landuse["Name"].str.contains("Buildings")]
+    #EXPORT SHAPEFILE -----
+    #exporting new shapefile independently
+    scenario_gdf.to_file("out/MIC_{scenario_name}.shp")
 
 
 # plot the dataset -------------
-fig, my_ax = subplots(figsize=(8, 4))
 
 # remove axes
 my_ax.axis('off')
