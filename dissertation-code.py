@@ -506,23 +506,8 @@ fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fon
 #flattening 2D array into 1D - so that its easy to loop
 axes = my_ax.flatten()
 
-# remove axes on all grids
-#my_ax[0].axis('off')
-#my_ax[1].axis('off')
-#my_ax[2].axis('off')
-#my_ax[3].axis('off')
-#my_ax[4].axis('off')
-
-# set title to all grids
-#my_ax[0].set_title("Equal Weighting", fontsize = 9)
-#my_ax[1].set_title("Distance Priority", fontsize = 9)
-#my_ax[2].set_title("Flood Zone Priority", fontsize = 9)
-#my_ax[3].set_title("Tank Size Priority", fontsize = 9)
-#my_ax[4].set_title("Land Use Priority", fontsize = 9)
-
 
 # FINAL WEIGHTING SCORE LOOP -------
-
 
 #loop through each each scenario and do the calc weights
 for idx, (scenario_name, weights) in zip(axes, scenarios.items()): 
