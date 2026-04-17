@@ -486,7 +486,14 @@ for i, row in MIC_landuse.iterrows():
 
 
 
-# FINAL WEIGHTING SCORE ----
+# PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
+
+
+
+
+
+
+# FINAL WEIGHTING SCORE -------
 
 #creating a new field with 0
 MIC_landuse["final_score"] = 0.0
@@ -511,8 +518,7 @@ for i, row in MIC_landuse.iterrows():
 #exporting new shapefile
 MIC_landuse.to_file("out/MIC_final_weighted.shp")
 
-
-# PLOTTING ALL MAPS ------------------------------
+# plot maps ---
 
 #select by attributes - rivers
 inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
