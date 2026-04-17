@@ -509,47 +509,27 @@ my_ax[4].set_title("Land Use Priority", fontsize = 15)
 
 # FINAL WEIGHTING SCORE LOOP -------
 
-#creating a new field with 0
-MIC_landuse["final_score"] = 0.0
-
-
 
 #loop through each each scenario and do the calc weights
 for idx, (scenario_name, weights) in zip(scenarios.iterrows()): 
-    
     
     #for each scenario looping through
     #copying base dataset so that each scenario is different
     scenario_gdf = MIC_landuse.copy()
     
-    
     #final calulating of score - sum(score) x weight
     #directly creating new field that had calculation
     scenario_gdf["final_score"] = (
     
-        row["score_distance"] * weights["W_DISTANCE"] + 
-        row["score_landuse"] * weights["W_LANDUSE"] +
-        row["score_tanksize"] * weights["W_TANKSIZE"] +
-        row["score_flood_2"] * weights["W_FLOODZONE_2"] +
-        row["score_flood_3"] * weights["W_FLOODZONE_3"])
-    
-
-
-#loop through each row in the MIC circles
-for i, row in MIC_landuse.iterrows(): 
-    
-    #final calulating of score - sum(score) x weight
-    final = (
-        row["score_distance"] * W_DISTANCE + 
-        row["score_landuse"] * W_LANDUSE +
-        row["score_tanksize"] * W_TANKSIZE +
-        row["score_flood_2"] * W_FLOODZONE_2 +
-        row["score_flood_3"] * W_FLOODZONE_3)
+        scenario_gdf["score_distance"] * weights["W_DISTANCE"] + 
+        scenario_gdf["score_landuse"] * weights["W_LANDUSE"] +
+        scenario_gdf["score_tanksize"] * weights["W_TANKSIZE"] +
+        scenario_gdf["score_flood_2"] * weights["W_FLOODZONE_2"] +
+        scenario_gdf["score_flood_3"] * weights["W_FLOODZONE_3"])
     
     # final_score = sum([score * weight for score, weight in zip(scores, weights)])
 
     #final moment of adding to new field 
-    MIC_landuse.loc[i, "final_score"] = final
     
     
     
