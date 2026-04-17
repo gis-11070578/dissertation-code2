@@ -333,11 +333,40 @@ MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 # create dictionary for each scenario with diff weights
 
 scenarios = {
-    W_DISTANCE = 0.3,
-    W_LANDUSE = 0.5,
-    W_TANKSIZE = 0.1,
-    W_FLOODZONE_2 = 0.05,
-    W_FLOODZONE_3 = 0.05}, 
+    "even_weighting": {
+    "W_DISTANCE" = 0.3,
+    "W_LANDUSE" = 0.5,
+    "W_TANKSIZE" = 0.1,
+    "W_FLOODZONE_2" = 0.05,
+    "W_FLOODZONE_3" = 0.05}, 
+    
+    "distance_priority": {
+    "W_DISTANCE" = 0.3,
+    "W_LANDUSE" = 0.5,
+    "W_TANKSIZE" = 0.1,
+    "W_FLOODZONE_2" = 0.05,
+    "W_FLOODZONE_3" = 0.05}, 
+    
+    "floodzones_priority": {
+    "W_DISTANCE" = 0.3,
+    "W_LANDUSE" = 0.5,
+    "W_TANKSIZE" = 0.1,
+    "W_FLOODZONE_2" = 0.05,
+    "W_FLOODZONE_3" = 0.05}, 
+
+    "tanksize_priority": {
+    "W_DISTANCE" = 0.3,
+    "W_LANDUSE" = 0.5,
+    "W_TANKSIZE" = 0.1,
+    "W_FLOODZONE_2" = 0.05,
+    "W_FLOODZONE_3" = 0.05}, 
+    
+    "landuse_priority": {
+    "W_DISTANCE" = 0.3,
+    "W_LANDUSE" = 0.5,
+    "W_TANKSIZE" = 0.1,
+    "W_FLOODZONE_2" = 0.05,
+    "W_FLOODZONE_3" = 0.05}}
 
 
 
