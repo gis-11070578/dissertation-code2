@@ -13,13 +13,18 @@ start_time = perf_counter()
 
 import numpy as np
 import geopandas as gpd
+
 from shapely import unary_union
-from matplotlib.lines import Line2D
-from matplotlib.patches import Patch
 from shapely import maximum_inscribed_circle
 from shapely.geometry import Point, LineString
-from matplotlib_scalebar.scalebar import ScaleBar
+
 from matplotlib.pyplot import subplots, savefig, title
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
+
+from matplotlib_scalebar.scalebar import ScaleBar
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import Normalize
 
 # All Functions ---------------------------------
 
@@ -516,7 +521,6 @@ fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fon
 axes = my_ax.flatten()
 
 
-
 # FINAL WEIGHTING SCORE LOOP -------
 
 #loop through each each scenario and do the calc weights
@@ -650,13 +654,22 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
             Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
             ],loc='upper left', fontsize=6)
 
+#tight layout so theres no gaps
+fig.tight_layout()
 
 # add scalebar - for all 
 ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
+#add a colour bar
+fig.colorbar(
+    ScalarMappable(
+        norm=Normalize(
+            vmin=MIC_landuse["final_score"].min()), 
+            vmax=MIC_landuse["final_score"].max()), 
+cmap='Reds', ax=ax,
+    orientation = "horizontal", #change so that it fits the bottom
+    pad=0.1 ) #distance from the maps
 
-#tight layout so theres no gaps
-fig.tight_layout()
 
 # save the result
 savefig('out/All_Scenarios.png', bbox_inches='tight')
