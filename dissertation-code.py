@@ -519,12 +519,15 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
     
     #for each scenario looping through
     #final calulating of score - sum(score) x weight
-    final = (
-        row["score_distance"] * W_DISTANCE + 
-        row["score_landuse"] * W_LANDUSE +
-        row["score_tanksize"] * W_TANKSIZE +
-        row["score_flood_2"] * W_FLOODZONE_2 +
-        row["score_flood_3"] * W_FLOODZONE_3)
+    
+    #directly creating new field that had calculation
+    MIC_landuse["final_score"] = (
+    
+        row["score_distance"] * ["W_DISTANCE"] + 
+        row["score_landuse"] * ["W_LANDUSE"] +
+        row["score_tanksize"] * ["W_TANKSIZE"] +
+        row["score_flood_2"] * ["W_FLOODZONE_2"] +
+        row["score_flood_3"] * ["W_FLOODZONE_3"])
     
 
 
