@@ -655,7 +655,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
             ],loc='upper left', fontsize=6)
 
 #tight layout so theres no gaps
-fig.tight_layout()
+fig.tight_layout(pad=1.5)
 
 # add scalebar - for all 
 ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
