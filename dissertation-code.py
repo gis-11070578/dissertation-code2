@@ -488,6 +488,19 @@ for i, row in MIC_landuse.iterrows():
 
 # PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
 
+# plot the dataset - 3 different maps -----------
+fig, my_ax = subplots(1, 3, figsize=(18, 6))
+fig.suptitle('Greater Manchester Districts - 3 Types of Heatmap Views', fontsize=15, weight='bold')
+
+# remove axes on all grids
+my_ax[0].axis('off')
+my_ax[1].axis('off')
+my_ax[2].axis('off')
+
+# set title to all grids
+my_ax[0].set_title("Raw Tweet Counts", fontsize = 15)
+my_ax[1].set_title("Simulated PG - Centroid", fontsize = 15)
+my_ax[2].set_title("Weighted Redistribution", fontsize = 15)
 
 
 
