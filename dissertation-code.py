@@ -641,10 +641,14 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     if scenario_name in ["Flood Zones Priority", "Distance and Flood Priority"]:
         
         ax.legend(handles=[
-        #flood zone 2 and 3 patch colours
-        Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
-        Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
-        ],loc='upper left', fontsize=6)
+            Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
+            Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
+            Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
+            Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
+            #flood zone 2 and 3 patch colours
+            Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
+            Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
+            ],loc='upper left', fontsize=6)
 
 
 # add scalebar - for all 
