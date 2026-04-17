@@ -12,7 +12,6 @@ start_time = perf_counter()
 # All Imports -------------------------------
 
 import numpy as np
-from shapely import geopandas
 import geopandas as gpd
 from shapely import unary_union
 from matplotlib.lines import Line2D
@@ -88,10 +87,9 @@ def erase_contours(gdf, erase_geom, land_type):
 MIN_RADIUS = 3
 
 # maximum tank radius (m)
-MAX_RADIUS = 55 
+MAX_RADIUS = 20 
 
 # max radius change to 10 or 20m based on previous tanks in the same catchment 
-
 
 # clearance - buffer from the polygon edges (m)
 BOUNDARY_BUFFER = 3
@@ -330,12 +328,17 @@ landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 #read file for combined land use MIC - only natural and manmade surfaces
 MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 
-# USER DEFINED WEIGHTING (must sum up to 1.0) ----
-W_DISTANCE = 0.3
-W_LANDUSE = 0.5
-W_TANKSIZE = 0.1
-W_FLOODZONE_2 = 0.05
-W_FLOODZONE_3 = 0.05
+# USER DEFINED WEIGHTING (must sum up to 1.0) ------
+# creating 5 different scenarios because need to have everything on one grid
+# create dictionary for each scenario with diff weights
+
+scenarios = {
+    W_DISTANCE = 0.3,
+    W_LANDUSE = 0.5,
+    W_TANKSIZE = 0.1,
+    W_FLOODZONE_2 = 0.05,
+    W_FLOODZONE_3 = 0.05}, 
+
 
 
 # DISTANCE FROM CSO - NEED LOCATION ----
