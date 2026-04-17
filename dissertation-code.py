@@ -613,7 +613,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
         ax=ax,
         column="final_score",
         cmap="Reds",
-        legend=True,
+        legend=False,
         edgecolor="black",
         linewidth=0.6)
 
@@ -658,7 +658,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 fig.tight_layout()
 
 # add scalebar - for all 
-ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
+#ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
 #add a colour bar
 fig.colorbar(
