@@ -503,6 +503,9 @@ for i, row in MIC_landuse.iterrows():
 fig, my_ax = subplots(2, 3, figsize=(15, 15))
 fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=10, weight='bold')
 
+#flattening 2D array into 1D - so that its easy to loop
+axes = my_ax.flatten()
+
 # remove axes on all grids
 my_ax[0].axis('off')
 my_ax[1].axis('off')
@@ -545,10 +548,10 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
     scenario_gdf.to_file("out/MIC_{scenario_name}.shp")
 
 
-# plot the dataset -------------
-
-# remove axes
-my_ax.axis('off')
+    # looping the axes plot dataset -----------------
+    # remove axes
+    ax = axes[idx]
+    my_ax.axis('off')
 
 #creating title
 #fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
