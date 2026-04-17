@@ -525,7 +525,7 @@ axes = my_ax.flatten()
 
 
 #loop through each each scenario and do the calc weights
-for idx, (scenario_name, weights) in zip(scenarios.iterrows()): 
+for idx, (scenario_name, weights) in zip(axes, scenarios.items()): 
     
     #for each scenario looping through
     #copying base dataset so that each scenario is different
@@ -629,22 +629,22 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
                    arrowprops=dict(facecolor='black', width=5, headwidth=15),
                    ha='center', va='center', fontsize=10, xycoords=my_ax.transAxes)
 
-# add scalebar - for all 
-my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
+    # add scalebar - for all 
+    my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
-# add legend
-my_ax.legend(handles=[
-        Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
-        Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
-        Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
-        #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
-        #Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
-        #Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
-    ],loc='upper left', fontsize=6)
+    # add legend
+    my_ax.legend(handles=[
+            Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
+            Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
+            Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
+            Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
+            #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
+            #Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
+            #Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
+            ],loc='upper left', fontsize=6)
 
 # save the result
-savefig('out/Visualising Maps.png', bbox_inches='tight')
+savefig('out/All_Scenarios.png', bbox_inches='tight')
 #print("done!")  
 
 # --- NO CODE BELOW HERE ---
