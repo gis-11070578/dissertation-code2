@@ -346,11 +346,11 @@ MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 scenarios = {
 #even scenario weighting so all is 0.2 
     "Even Weighting": {
-    "W_DISTANCE": 0.2,
-    "W_LANDUSE": 0.2,
-    "W_TANKSIZE": 0.2,
-    "W_FLOODZONE_2": 0.2,
-    "W_FLOODZONE_3": 0.2}, 
+    "W_DISTANCE": 0.20,
+    "W_LANDUSE": 0.20,
+    "W_TANKSIZE": 0.20,
+    "W_FLOODZONE_2": 0.20,
+    "W_FLOODZONE_3": 0.20}, 
     
 #distance priority - then landuse - then tank - then FZ
     "Distance Priority": {
@@ -543,7 +543,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     ax.axis('off')
 
     #creating title
-    ax.set_title(f"{scenario_name} Map", fontsize = 9)
+    ax.set_title(f"{scenario_name} Map", fontsize = 12, weight='bold')
 
     #USER DEFINED PARAMETER
     #buffer around the border itself - to give us some context
