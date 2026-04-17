@@ -333,34 +333,39 @@ MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
 # create dictionary for each scenario with diff weights
 
 scenarios = {
+#even scenario weighting so all is 0.2 
     "even_weighting": {
-    "W_DISTANCE": 0.3,
-    "W_LANDUSE": 0.5,
-    "W_TANKSIZE": 0.1,
-    "W_FLOODZONE_2": 0.05,
-    "W_FLOODZONE_3": 0.05}, 
+    "W_DISTANCE": 0.2,
+    "W_LANDUSE": 0.2,
+    "W_TANKSIZE": 0.2,
+    "W_FLOODZONE_2": 0.2,
+    "W_FLOODZONE_3": 0.2}, 
     
+#distance priority - then landuse - then tank - then FZ
     "distance_priority": {
-    "W_DISTANCE": 0.3,
-    "W_LANDUSE": 0.5,
+    "W_DISTANCE": 0.5,
+    "W_LANDUSE": 0.3,
     "W_TANKSIZE": 0.1,
     "W_FLOODZONE_2": 0.05,
     "W_FLOODZONE_3": 0.05}, 
-    
+  
+#flood zones priority - then distance + landuse same - then tank
     "floodzones_priority": {
-    "W_DISTANCE": 0.3,
-    "W_LANDUSE": 0.5,
+    "W_DISTANCE": 0.15,
+    "W_LANDUSE": 0.15,
     "W_TANKSIZE": 0.1,
-    "W_FLOODZONE_2": 0.05,
-    "W_FLOODZONE_3": 0.05}, 
+    "W_FLOODZONE_2": 0.3,
+    "W_FLOODZONE_3": 0.3}, 
 
+#tanksize priorty - then distance - then landuse - then FZ
     "tanksize_priority": {
     "W_DISTANCE": 0.3,
-    "W_LANDUSE": 0.5,
-    "W_TANKSIZE": 0.1,
+    "W_LANDUSE": 0.1,
+    "W_TANKSIZE": 0.5,
     "W_FLOODZONE_2": 0.05,
     "W_FLOODZONE_3": 0.05}, 
     
+#landuse priorty - then distance - then tanksize - then FZ
     "landuse_priority": {
     "W_DISTANCE": 0.3,
     "W_LANDUSE": 0.5,
