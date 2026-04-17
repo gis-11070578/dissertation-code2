@@ -529,8 +529,8 @@ for idx, (ax, scenario_name, weights) in enumerate(zip(axes, scenarios.items()))
     # final_score = sum([score * weight for score, weight in zip(scores, weights)])
     
     #EXPORT SHAPEFILE -----
-    #exporting new shapefile independently
-    scenario_gdf.to_file("out/MIC_{scenario_name}.shp")
+    #exporting new shapefile independently - diff name
+    scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
 
 
     # looping the axes plot dataset -----------------
