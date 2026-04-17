@@ -626,8 +626,8 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
     # arrow - left/right, up/down, north sign up/down
     x, y, arrow_length = 0.95, 0.98, 0.1
     my_ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
-                   owprops=dict(facecolor='black', width=5, headwidth=15),
-                   'center', va='center', fontsize=10, xycoords=my_ax.transAxes)
+                   arrowprops=dict(facecolor='black', width=5, headwidth=15),
+                   ha='center', va='center', fontsize=10, xycoords=my_ax.transAxes)
 
 # add scalebar - for all 
 my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
