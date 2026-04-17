@@ -488,7 +488,7 @@ for i, row in MIC_landuse.iterrows():
 
 # PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
 
-# plot the dataset - 3 different maps -----------
+# plot the dataset - 5 different maps -----------
 fig, my_ax = subplots(2, 3, figsize=(15, 15))
 fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=10, weight='bold')
 
@@ -507,12 +507,26 @@ my_ax[3].set_title("Tank Size Priority", fontsize = 15)
 my_ax[4].set_title("Land Use Priority", fontsize = 15)
 
 
-
-
-# FINAL WEIGHTING SCORE -------
+# FINAL WEIGHTING SCORE LOOP -------
 
 #creating a new field with 0
 MIC_landuse["final_score"] = 0.0
+
+
+
+#loop through each each scenario and do the calc weights
+for idx, (scenario_name, weights) in zip(scenarios.iterrows()): 
+    
+    #for each scenario looping through
+    #final calulating of score - sum(score) x weight
+    final = (
+        row["score_distance"] * W_DISTANCE + 
+        row["score_landuse"] * W_LANDUSE +
+        row["score_tanksize"] * W_TANKSIZE +
+        row["score_flood_2"] * W_FLOODZONE_2 +
+        row["score_flood_3"] * W_FLOODZONE_3)
+    
+
 
 #loop through each row in the MIC circles
 for i, row in MIC_landuse.iterrows(): 
@@ -529,7 +543,9 @@ for i, row in MIC_landuse.iterrows():
 
     #final moment of adding to new field 
     MIC_landuse.loc[i, "final_score"] = final
-
+    
+    
+    
 #EXPORT SHAPEFILE -----
 #exporting new shapefile
 MIC_landuse.to_file("out/MIC_final_weighted.shp")
