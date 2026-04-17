@@ -500,7 +500,7 @@ for i, row in MIC_landuse.iterrows():
 # PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
 
 # plot the dataset - 5 different maps -----------
-fig, my_ax = subplots(2, 3, figsize=(15, 15))
+fig, my_ax = subplots(2, 3, figsize=(15, 10))
 fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=20, weight='bold')
 
 #flattening 2D array into 1D - so that its easy to loop
@@ -552,27 +552,27 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
     minx, miny, maxx, maxy = cso_buffer.total_bounds
 
-    my_ax.set_xlim([minx, maxx])
-    my_ax.set_ylim([miny, maxy])
+    ax.set_xlim([minx, maxx])
+    ax.set_ylim([miny, maxy])
 
 
     # plotting cleaned land use polygons -------
     #natural land cleaned
-    natural_clean.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'green',  linewidth = 0.3)
+    natural_clean.plot(ax = ax, color = '#ccebc5', edgecolor = 'green',  linewidth = 0.3)
 
     #manmade land cleaned
-    manmade_clean.plot(ax = my_ax, color = '#aa74b0', edgecolor = 'purple',  linewidth = 0.3)
+    manmade_clean.plot(ax = ax, color = '#aa74b0', edgecolor = 'purple',  linewidth = 0.3)
 
 
     #land use extras ------
     #natural land cleaned
-    inland_water.plot(ax = my_ax, color = 'lightblue', edgecolor = 'blue',  linewidth = 0.3)
+    inland_water.plot(ax = ax, color = 'lightblue', edgecolor = 'blue',  linewidth = 0.3)
 
     #natural land cleaned
-    roads.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
+    roads.plot(ax = ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
     #natural land cleaned
-    buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
+    buildings.plot(ax = ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
 
     #plotting flood zones -----
