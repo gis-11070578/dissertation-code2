@@ -586,12 +586,17 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 
 
     #plotting flood zones -----
-    #flood zone 2
-    #floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+    # only for scenarios 3 and 6 - with flood zones 
+    if scenario_name == "Flood Zones Priority" or "Distance and Flood Priority":
+        
+        #flood zone 2
+        floodzone_2.plot(ax = ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
 
-    #flood zone 3
-    #floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
-
+        #flood zone 3
+        floodzone_3.plot(ax = ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+    
+    else: 
+        continue
 
     # plotting MIC safe circles -------
     #natural land MIC
