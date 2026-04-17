@@ -368,7 +368,7 @@ scenarios = {
     "W_FLOODZONE_2": 0.30,
     "W_FLOODZONE_3": 0.30}, 
 
-#tanksize priorty - then distance - then landuse - then FZ
+#tanksize priority - then distance - then landuse - then FZ
     "Tank Size Priority": {
     "W_DISTANCE": 0.20,
     "W_LANDUSE": 0.15,
@@ -376,13 +376,22 @@ scenarios = {
     "W_FLOODZONE_2": 0.075,
     "W_FLOODZONE_3": 0.075}, 
     
-#landuse priorty - then distance - then tanksize - then FZ
+#landuse priority - then distance - then tanksize - then FZ
     "Land Use Priority": {
     "W_DISTANCE": 0.20,
     "W_LANDUSE": 0.50,
     "W_TANKSIZE": 0.15,
     "W_FLOODZONE_2": 0.075,
-    "W_FLOODZONE_3": 0.075}}
+    "W_FLOODZONE_3": 0.075},
+
+#distance and flood priority - then distance - then tanksize - then FZ
+    "Distance and Flood Priority": {
+    "W_DISTANCE": 0.30,
+    "W_LANDUSE": 0.10,
+    "W_TANKSIZE": 0.10,
+    "W_FLOODZONE_2": 0.25,
+    "W_FLOODZONE_3": 0.25}}
+
 
 
 # DISTANCE FROM CSO - NEED LOCATION -----
@@ -630,8 +639,6 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
             #Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
             ],loc='upper left', fontsize=6)
 
-#remove one less axis 
-fig.delaxes(axes[-1])
 
 #tight layout so theres no gaps
 fig.tight_layout()
