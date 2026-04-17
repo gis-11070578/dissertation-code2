@@ -570,68 +570,66 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
     my_ax.set_ylim([miny, maxy])
 
 
-# plotting cleaned land use polygons -------
+    # plotting cleaned land use polygons -------
+    #natural land cleaned
+    natural_clean.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'green',  linewidth = 0.3)
 
-#natural land cleaned
-natural_clean.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'green',  linewidth = 0.3)
-
-#manmade land cleaned
-manmade_clean.plot(ax = my_ax, color = '#aa74b0', edgecolor = 'purple',  linewidth = 0.3)
-
-
-#land use extras -----
-
-#natural land cleaned
-inland_water.plot(ax = my_ax, color = 'lightblue', edgecolor = 'blue',  linewidth = 0.3)
-
-#natural land cleaned
-roads.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
-
-#natural land cleaned
-buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
+    #manmade land cleaned
+    manmade_clean.plot(ax = my_ax, color = '#aa74b0', edgecolor = 'purple',  linewidth = 0.3)
 
 
-#plotting flood zones ---- 
+    #land use extras ------
+    #natural land cleaned
+    inland_water.plot(ax = my_ax, color = 'lightblue', edgecolor = 'blue',  linewidth = 0.3)
 
-#flood zone 2
-#floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
+    #natural land cleaned
+    roads.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
-#flood zone 3
-#floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
-
-
-# plotting MIC safe circles -------
-
-#natural land MIC
-#natural_mic.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'darkgreen',  linewidth = 1)
-
-#manmade land MIC
-#manmade_mic.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'black',  linewidth = 1)
-
-MIC_landuse.plot(
-    ax=my_ax,
-    column="final_score",
-    cmap="Reds",
-    legend=True,
-    edgecolor="black",
-    linewidth=0.6)
-
-#CSO Plot ---------
-cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=20, linewidths=0.2)
-cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
-#outfall.plot(ax = my_ax, color = 'blue', markersize =12)
+    #natural land cleaned
+    buildings.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'grey',  linewidth = 0.3)
 
 
-# Extras on the map ---------
+    #plotting flood zones -----
+    #flood zone 2
+    #floodzone_2.plot(ax = my_ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
 
-# add north arrow
-# arrow - left/right, up/down, north sign up/down
-x, y, arrow_length = 0.95, 0.98, 0.1
-my_ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
-	arrowprops=dict(facecolor='black', width=5, headwidth=15),
-	ha='center', va='center', fontsize=10, xycoords=my_ax.transAxes)
+    #flood zone 3
+    #floodzone_3.plot(ax = my_ax, color = '#CACFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
 
-# add scalebar
+
+    # plotting MIC safe circles -------
+    #natural land MIC
+    #natural_mic.plot(ax = my_ax, color = '#ccebc5', edgecolor = 'darkgreen',  linewidth = 1)
+
+    #manmade land MIC
+    #manmade_mic.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'black',  linewidth = 1)
+
+
+#plotting the RESULT LAYER -------
+    MIC_landuse.plot(
+        ax=ax,
+        column="final_score",
+        cmap="Reds",
+        legend=True,
+        edgecolor="black",
+        linewidth=0.6)
+
+    #CSO Plot ---------
+    cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=20, linewidths=0.2)
+    cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
+    #outfall.plot(ax = my_ax, color = 'blue', markersize =12)
+
+
+    # Extras on the map ---------
+
+    # add north arrow
+    # arrow - left/right, up/down, north sign up/down
+    x, y, arrow_length = 0.95, 0.98, 0.1
+    my_ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
+                   owprops=dict(facecolor='black', width=5, headwidth=15),
+                   'center', va='center', fontsize=10, xycoords=my_ax.transAxes)
+
+# add scalebar - for all 
 my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
 # add legend
