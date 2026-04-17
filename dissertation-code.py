@@ -501,7 +501,7 @@ for i, row in MIC_landuse.iterrows():
 
 # plot the dataset - 5 different maps -----------
 fig, my_ax = subplots(2, 3, figsize=(15, 15))
-fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=10, weight='bold')
+fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=20, weight='bold')
 
 #flattening 2D array into 1D - so that its easy to loop
 axes = my_ax.flatten()
@@ -535,7 +535,7 @@ for idx, (ax, scenario_name, weights) in enumerate(zip(axes, scenarios.items()))
 
     # looping the axes plot dataset -----------------
     # new variable ax is the index of each axis section
-    ax = my_ax[idx]
+    #ax = my_ax[idx]
     
     #turn off axes 
     ax.axis('off')
@@ -591,7 +591,7 @@ for idx, (ax, scenario_name, weights) in enumerate(zip(axes, scenarios.items()))
 
 
 #plotting the RESULT LAYER -------
-    MIC_landuse.plot(
+    scenario_gdf.plot(
         ax=ax,
         column="final_score",
         cmap="Reds",
@@ -600,9 +600,9 @@ for idx, (ax, scenario_name, weights) in enumerate(zip(axes, scenarios.items()))
         linewidth=0.6)
 
     #CSO Plot ---------
-    cso.plot(ax = my_ax, color = 'yellow', edgecolor='black', markersize=20, linewidths=0.2)
-    cso2outfall.plot(ax = my_ax, color = 'black', linewidth = 1)
-    #outfall.plot(ax = my_ax, color = 'blue', markersize =12)
+    cso.plot(ax = ax, color = 'yellow', edgecolor='black', markersize=20, linewidths=0.2)
+    cso2outfall.plot(ax = ax, color = 'black', linewidth = 1)
+    #outfall.plot(ax = ax, color = 'blue', markersize =12)
 
 
     # Extras on the map ---------
@@ -610,15 +610,15 @@ for idx, (ax, scenario_name, weights) in enumerate(zip(axes, scenarios.items()))
     # add north arrow
     # arrow - left/right, up/down, north sign up/down
     x, y, arrow_length = 0.95, 0.98, 0.1
-    my_ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
+    ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length),
                    arrowprops=dict(facecolor='black', width=5, headwidth=15),
-                   ha='center', va='center', fontsize=10, xycoords=my_ax.transAxes)
+                   ha='center', va='center', fontsize=10, xycoords=ax.transAxes)
 
     # add scalebar - for all 
-    my_ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
+    ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
     # add legend
-    my_ax.legend(handles=[
+    ax.legend(handles=[
             Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
             Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
             Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
