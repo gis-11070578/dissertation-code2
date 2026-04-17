@@ -604,7 +604,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     #manmade_mic.plot(ax = my_ax, color = 'lightgrey', edgecolor = 'black',  linewidth = 1)
 
 
-#plotting the RESULT LAYER -------
+    #plotting the RESULT LAYER -------
     scenario_gdf.plot(
         ax=ax,
         column="final_score",
@@ -628,19 +628,27 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
                    arrowprops=dict(facecolor='black', width=5, headwidth=15),
                    ha='center', va='center', fontsize=10, xycoords=ax.transAxes)
 
-    # add scalebar - for all 
-    ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
-
     # add legend
     ax.legend(handles=[
-            Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
-            Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
-            Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-            Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
-            #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
-            #Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
-            #Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
-            ],loc='upper left', fontsize=6)
+        Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
+        Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
+        Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
+        Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
+        #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
+        ],loc='upper left', fontsize=6)
+        
+    #adding flood zone legend only for 2 scenarios 
+    if scenario_name in ["Flood Zones Priority", "Distance and Flood Priority"]:
+        
+        ax.legend(handles=[
+        #flood zone 2 and 3 patch colours
+        Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
+        Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
+        ],loc='upper left', fontsize=6)
+
+
+# add scalebar - for all 
+ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
 
 #tight layout so theres no gaps
