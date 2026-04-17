@@ -507,18 +507,18 @@ fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fon
 axes = my_ax.flatten()
 
 # remove axes on all grids
-my_ax[0].axis('off')
-my_ax[1].axis('off')
-my_ax[2].axis('off')
-my_ax[3].axis('off')
-my_ax[4].axis('off')
+#my_ax[0].axis('off')
+#my_ax[1].axis('off')
+#my_ax[2].axis('off')
+#my_ax[3].axis('off')
+#my_ax[4].axis('off')
 
 # set title to all grids
-my_ax[0].set_title("Equal Weighting", fontsize = 9)
-my_ax[1].set_title("Distance Priority", fontsize = 9)
-my_ax[2].set_title("Flood Zone Priority", fontsize = 9)
-my_ax[3].set_title("Tank Size Priority", fontsize = 9)
-my_ax[4].set_title("Land Use Priority", fontsize = 9)
+#my_ax[0].set_title("Equal Weighting", fontsize = 9)
+#my_ax[1].set_title("Distance Priority", fontsize = 9)
+#my_ax[2].set_title("Flood Zone Priority", fontsize = 9)
+#my_ax[3].set_title("Tank Size Priority", fontsize = 9)
+#my_ax[4].set_title("Land Use Priority", fontsize = 9)
 
 
 # FINAL WEIGHTING SCORE LOOP -------
@@ -549,26 +549,25 @@ for idx, (scenario_name, weights) in zip(scenarios.iterrows()):
 
 
     # looping the axes plot dataset -----------------
-    # remove axes
-    ax = axes[idx]
-    my_ax.axis('off')
+    # new variable ax is the index of each axis section
+    ax = my_ax[idx]
+    
+    #turn off axes 
+    ax.axis('off')
 
-#creating title
-#fig.suptitle('Visualising MIC circles', fontsize=10, weight='bold')
+    #creating title
+    ax.set_title(f"{scenario_name} Map", fontsize = 9)
 
-# set title
-title("Visualising Weighted MIC Circles", fontsize = 10, weight='bold')
+    #USER DEFINED PARAMETER
+    #buffer around the border itself - to give us some context
+    CSO_ZOOM_BUFFER = 350
 
-#USER DEFINED PARAMETER
-#buffer around the border itself - to give us some context
-CSO_ZOOM_BUFFER = 350
+    # extract the bounds from the CSO layer
+    cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
+    minx, miny, maxx, maxy = cso_buffer.total_bounds
 
-# extract the bounds from the CSO layer
-cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
-minx, miny, maxx, maxy = cso_buffer.total_bounds
-
-my_ax.set_xlim([minx, maxx])
-my_ax.set_ylim([miny, maxy])
+    my_ax.set_xlim([minx, maxx])
+    my_ax.set_ylim([miny, maxy])
 
 
 # plotting cleaned land use polygons -------
