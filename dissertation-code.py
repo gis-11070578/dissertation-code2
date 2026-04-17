@@ -92,9 +92,9 @@ def erase_contours(gdf, erase_geom, land_type):
 MIN_RADIUS = 3
 
 # maximum tank radius (m)
-MAX_RADIUS = 20 
+MAX_RADIUS = 15 
 
-# max radius change to 10 or 20m based on previous tanks in the same catchment 
+#max radius change to 10 or 20m based on previous tanks in the same catchment 
 
 # clearance - buffer from the polygon edges (m)
 BOUNDARY_BUFFER = 3
@@ -456,7 +456,7 @@ for i, row in MIC_landuse.iterrows():
 
 
 # TANK SIZE SCORING -------
-#control variable
+#control variable (depth of tank to dig)
 TANK_HEIGHT = 10
 
 MIN_AREA = np.pi * MIN_RADIUS**2 
@@ -658,17 +658,17 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 fig.tight_layout()
 
 # add scalebar - for all 
-#ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
+ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
 #add a colour bar
-fig.colorbar(
-    ScalarMappable(
-        norm=Normalize(
-            vmin=MIC_landuse["final_score"].min()), 
-            vmax=MIC_landuse["final_score"].max()), 
-cmap='Reds', ax=ax,
-    orientation = "horizontal", #change so that it fits the bottom
-    pad=0.1 ) #distance from the maps
+#fig.colorbar(
+    #ScalarMappable(
+        #norm=Normalize(
+            #vmin=MIC_landuse["final_score"].min()), 
+            #vmax=MIC_landuse["final_score"].max()), 
+#cmap='Reds', ax=ax,
+    #orientation = "horizontal", #change so that it fits the bottom
+    #pad=0.1 ) #distance from the maps
 
 
 # save the result
