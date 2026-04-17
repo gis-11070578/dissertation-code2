@@ -369,8 +369,7 @@ scenarios = {
     "W_FLOODZONE_3": 0.05}}
 
 
-
-# DISTANCE FROM CSO - NEED LOCATION ----
+# DISTANCE FROM CSO - NEED LOCATION -----
 #create user defined buffer zone - from cso point
 MAX_DISTANCE = 1000 #1km - meters
 
@@ -406,7 +405,7 @@ for i, row in MIC_landuse.iterrows():
         MIC_landuse.loc[i, "score_distance"] = 0.0
 
 
-# LANDUSE SCORING -----
+# LANDUSE SCORING -------
 #loop through each row in the MIC circles
 for i, row in MIC_landuse.iterrows(): 
     
@@ -423,10 +422,10 @@ for i, row in MIC_landuse.iterrows():
     
     #else then score 0
     else: 
-        MIC_landuse.loc[i, "score_landuse"] = 0.0
+        MIC_landuse.loc[i, "score_landuse"] = 0.3
 
 
-# TANK SIZE SCORING ----
+# TANK SIZE SCORING -------
 #control variable
 TANK_HEIGHT = 10
 
@@ -454,7 +453,7 @@ for i, row in MIC_landuse.iterrows():
     MIC_landuse.loc[i, "score_tanksize"] = score
 
 
-# FLOOD RISK SCORING ----
+# FLOOD RISK SCORING ------
 
 #insuring that all non intersecting circles are highly rated
 MIC_landuse["score_flood_2"] = 1.0
@@ -469,16 +468,16 @@ for i, row in MIC_landuse.iterrows():
     #circle geometry for each MIC 
     circle = row.geometry
 
-    #if mic intersect with flood zone 2 - score
+    #if mic intersect with flood zone 2 - score (between 0-1)
     if floodzone_2.intersects(circle).any():
         MIC_landuse.loc[i, "score_flood_2"] = 0.4
 
 # FLOOD ZONE 3 ----
 #flood zone 3 - high risk 
 
-    #if mic intersect with flood zone 3 - score
+    #if mic intersect with flood zone 3 - score (between 0-1)
     if floodzone_3.intersects(circle).any():
-        MIC_landuse.loc[i, "score_flood_3"] = 0.1
+        MIC_landuse.loc[i, "score_flood_3"] = 0.5
 
 
 
