@@ -354,35 +354,35 @@ scenarios = {
     
 #distance priority - then landuse - then tank - then FZ
     "Distance Priority": {
-    "W_DISTANCE": 0.5,
-    "W_LANDUSE": 0.3,
-    "W_TANKSIZE": 0.1,
-    "W_FLOODZONE_2": 0.05,
-    "W_FLOODZONE_3": 0.05}, 
+    "W_DISTANCE": 0.50,
+    "W_LANDUSE": 0.20,
+    "W_TANKSIZE": 0.15,
+    "W_FLOODZONE_2": 0.075,
+    "W_FLOODZONE_3": 0.075}, 
   
 #flood zones priority - then distance + landuse same - then tank
-    "Floodzones Priority": {
+    "Flood Zones Priority": {
     "W_DISTANCE": 0.15,
     "W_LANDUSE": 0.15,
-    "W_TANKSIZE": 0.1,
-    "W_FLOODZONE_2": 0.3,
-    "W_FLOODZONE_3": 0.3}, 
+    "W_TANKSIZE": 0.10,
+    "W_FLOODZONE_2": 0.30,
+    "W_FLOODZONE_3": 0.30}, 
 
 #tanksize priorty - then distance - then landuse - then FZ
-    "Tanksize Priority": {
-    "W_DISTANCE": 0.3,
-    "W_LANDUSE": 0.1,
-    "W_TANKSIZE": 0.5,
-    "W_FLOODZONE_2": 0.05,
-    "W_FLOODZONE_3": 0.05}, 
+    "Tank Size Priority": {
+    "W_DISTANCE": 0.20,
+    "W_LANDUSE": 0.15,
+    "W_TANKSIZE": 0.50,
+    "W_FLOODZONE_2": 0.075,
+    "W_FLOODZONE_3": 0.075}, 
     
 #landuse priorty - then distance - then tanksize - then FZ
-    "Landuse Priority": {
-    "W_DISTANCE": 0.3,
-    "W_LANDUSE": 0.5,
-    "W_TANKSIZE": 0.1,
-    "W_FLOODZONE_2": 0.05,
-    "W_FLOODZONE_3": 0.05}}
+    "Land Use Priority": {
+    "W_DISTANCE": 0.20,
+    "W_LANDUSE": 0.50,
+    "W_TANKSIZE": 0.15,
+    "W_FLOODZONE_2": 0.075,
+    "W_FLOODZONE_3": 0.075}}
 
 
 # DISTANCE FROM CSO - NEED LOCATION -----
