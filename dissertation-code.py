@@ -510,7 +510,8 @@ axes = my_ax.flatten()
 # FINAL WEIGHTING SCORE LOOP -------
 
 #loop through each each scenario and do the calc weights
-for idx, (ax, scenario_name, weights) in enumerate(zip(axes, scenarios.items())): 
+#for each index, in each ax, loop through dictionary scenarios and their weights
+for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items())): 
     
     #for each scenario looping through
     #copying base dataset so that each scenario is different
