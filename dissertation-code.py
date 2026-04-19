@@ -291,58 +291,57 @@ landuse_clean.to_file("out/landuse_clean.shp")
 
 #new natural land polygons to new shapefile
 #natural_clean.to_file("out/natural_clean.shp")
-
 #new manmade land polygons to new shapefile
 #manmade_clean.to_file("out/manmade_clean.shp")
 
 
-
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
-# ONLY NEED FOR LANDUSE
+
+#load all landuse NM cleaned version - vector
+landuse_clean = gpd.read_file("out/landuse_clean.shp")
 
 #load all natural land - vector
-natural_clean = gpd.read_file("out/natural_clean.shp")
-
+#natural_clean = gpd.read_file("out/natural_clean.shp")
 #load all manmade surfaces - vector
-manmade_clean = gpd.read_file("out/manmade_clean.shp")
+#manmade_clean = gpd.read_file("out/manmade_clean.shp")
 
 
 # Running Max Inscribed Circle Function ------
 
-natural_mic = compute_mic(
-    natural_clean, 
+#running MIC on the cleaned landuse 
+landuse_mic_safe = compute_mic(
+    landuse_clean, 
     min_radius = MIN_RADIUS, 
     max_radius = MAX_RADIUS,
     boundary_buffer = BOUNDARY_BUFFER )
 
-manmade_mic = compute_mic(
-    manmade_clean, 
-    min_radius = MIN_RADIUS, 
-    max_radius = MAX_RADIUS,
-    boundary_buffer = BOUNDARY_BUFFER )
+#natural_mic = compute_mic(
+    #natural_clean, 
+    #min_radius = MIN_RADIUS, 
+    #max_radius = MAX_RADIUS,
+    #boundary_buffer = BOUNDARY_BUFFER )
+
+#manmade_mic = compute_mic(
+    #manmade_clean, 
+    #min_radius = MIN_RADIUS, 
+    #max_radius = MAX_RADIUS,
+    #boundary_buffer = BOUNDARY_BUFFER )
 
 
 # Saving outputs to a new shapefile -------
 
 #new natural land polygons to new shapefile
-natural_mic.to_file("out/natural_MIC_safe.shp")
+landuse_mic_safe.to_file("out/landuse_MIC_safe.shp")
 
+#new natural land polygons to new shapefile
+#natural_mic.to_file("out/natural_MIC_safe.shp")
 #new manmade land polygons to new shapefile
-manmade_mic.to_file("out/manmade_MIC_safe.shp")
+#manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 #read new landuse land polygons
-natural_MIC_safe = gpd.read_file("out/natural_MIC_safe.shp")
-manmade_MIC_safe = gpd.read_file("out/manmade_MIC_safe.shp")
+#natural_MIC_safe = gpd.read_file("out/natural_MIC_safe.shp")
+#manmade_MIC_safe = gpd.read_file("out/manmade_MIC_safe.shp")
 
-#set to same coord system
-natural_MIC_safe = natural_MIC_safe.to_crs(landuse.crs)
-manmade_MIC_safe = manmade_MIC_safe.to_crs(landuse.crs)
-
-#merge and combine both shapefiles
-landuse_MIC_safe = gpd.pd.concat([natural_MIC_safe, manmade_MIC_safe])
-
-#export to shapefile
-landuse_MIC_safe.to_file("out/landuse_MIC_safe.shp")
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
