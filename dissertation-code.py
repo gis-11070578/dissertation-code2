@@ -29,7 +29,7 @@ from matplotlib.colors import Normalize
 # All Functions ---------------------------------
 
 #erasing bad contours function - instead of long code
-def erase_contours(gdf, erase_geom, land_type):
+def erase_contours(gdf, erase_geom):
     
     """
     Function used to erase contour polygon from the land type polygon
@@ -75,7 +75,7 @@ def erase_contours(gdf, erase_geom, land_type):
         #not splitting multiparts - appending the new geom to output
         output_polygons.append({
             "ID": idx,
-            "Land_type": land_type, 
+            "Land_type": row["Name"], 
             "geometry": new_geom })
 
     #output new shapes with all new natural land polygons
@@ -270,7 +270,7 @@ landuse_NM = gpd.pd.concat([natural_land, manmade_land]).to_crs(landuse.crs)
 
 #calling function to erase contours for land use for natural and manmade
 
-landuse_clean = erase_contours(landuse_NM, bad_geom, "Natural Land", "Manmade Surface")
+landuse_clean = erase_contours(landuse_NM, bad_geom)
 
 #calling function to erase contours for all land use + both landuse and manmade
 #calling function to erase contours for natural land 
