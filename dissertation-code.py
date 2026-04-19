@@ -276,14 +276,26 @@ manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 #print(f"Natural RAW Polygons: {len(natural_land)}")
 #print(f"Manmade RAW Polygons: {len(manmade_land)}")
 
+#combine natural land and manmade land ---------
+#merge and combine both shapefiles - dont need all landuse but need 2 layers
+landuse_NM = gpd.pd.concat([natural_land, manmade_land])
 
-# Running the erase contour function -----
+#reproject into same crs
+landuse_NM = landuse_NM.to_crs(landuse.crs)
 
+
+# Running the erase contour function -------
+
+#calling function to erase contours for land use for natural and manmade
+
+landuse_clean = erase_contours(landuse_NM, bad_geom, "Natural Land", "Manmade Surface")
+
+#calling function to erase contours for all land use + both landuse and manmade
 #calling function to erase contours for natural land 
-natural_clean = erase_contours(natural_land, bad_geom, "Natural Land")
+#natural_clean = erase_contours(natural_land, bad_geom, "Natural Land")
 
 #calling function to erase contours for manmade surface 
-manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
+#manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 
 #printing new count of all cut down polygons after erase function
 #print(f"Natural Polygons after CUT: {len(natural_clean)}")
@@ -292,15 +304,19 @@ manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 
 # Saving outputs to a new shapefile -----
 
+#new landuse polygons to new shapefile
+landuse_clean.to_file("out/landuse_clean.shp")
+
 #new natural land polygons to new shapefile
-natural_clean.to_file("out/natural_clean.shp")
+#natural_clean.to_file("out/natural_clean.shp")
 
 #new manmade land polygons to new shapefile
-manmade_clean.to_file("out/manmade_clean.shp")
+#manmade_clean.to_file("out/manmade_clean.shp")
 
 
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
+# ONLY NEED FOR LANDUSE
 
 #load all natural land - vector
 natural_clean = gpd.read_file("out/natural_clean.shp")
