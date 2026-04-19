@@ -29,7 +29,7 @@ from matplotlib.colors import Normalize
 # All Functions ---------------------------------
 
 #erasing bad contours function - instead of long code
-def erase_contours(gdf, erase_geom):
+def erase_contours(gdf, erase_geom, land_type):
     
     """
     Function used to erase contour polygon from the land type polygon
@@ -75,7 +75,7 @@ def erase_contours(gdf, erase_geom):
         #not splitting multiparts - appending the new geom to output
         output_polygons.append({
             "ID": idx,
-            "Land_type": row["Name"], 
+            "Land_type": land_type, 
             "geometry": new_geom })
 
     #output new shapes with all new natural land polygons
@@ -269,15 +269,14 @@ landuse_NM = gpd.pd.concat([natural_land, manmade_land]).to_crs(landuse.crs)
 # Running the erase contour function -------
 
 #calling function to erase contours for land use for natural and manmade
-
-landuse_clean = erase_contours(landuse_NM, bad_geom)
+#landuse_clean = erase_contours(landuse_NM, bad_geom)
 
 #calling function to erase contours for all land use + both landuse and manmade
 #calling function to erase contours for natural land 
-#natural_clean = erase_contours(natural_land, bad_geom, "Natural Land")
+natural_clean = erase_contours(natural_land, bad_geom, "Natural Land")
 
 #calling function to erase contours for manmade surface 
-#manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
+manmade_clean = erase_contours(manmade_land, bad_geom, "Manmade Surface")
 
 #printing new count of all cut down polygons after erase function
 #print(f"Natural Polygons after CUT: {len(natural_clean)}")
@@ -287,67 +286,63 @@ landuse_clean = erase_contours(landuse_NM, bad_geom)
 # Saving outputs to a new shapefile -----
 
 #new landuse polygons to new shapefile
-landuse_clean.to_file("out/landuse_clean.shp")
+#landuse_clean.to_file("out/landuse_clean.shp")
 
 #new natural land polygons to new shapefile
-#natural_clean.to_file("out/natural_clean.shp")
+natural_clean.to_file("out/natural_clean.shp")
+
 #new manmade land polygons to new shapefile
-#manmade_clean.to_file("out/manmade_clean.shp")
+manmade_clean.to_file("out/manmade_clean.shp")
 
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
 #load all landuse NM cleaned version - vector
-landuse_clean = gpd.read_file("out/landuse_clean.shp")
+#landuse_clean = gpd.read_file("out/landuse_clean.shp")
 
 #load all natural land - vector
-#natural_clean = gpd.read_file("out/natural_clean.shp")
+natural_clean = gpd.read_file("out/natural_clean.shp")
+
 #load all manmade surfaces - vector
-#manmade_clean = gpd.read_file("out/manmade_clean.shp")
+manmade_clean = gpd.read_file("out/manmade_clean.shp")
 
 
 # Running Max Inscribed Circle Function ------
 
-#running MIC on the cleaned landuse 
-landuse_mic_safe = compute_mic(
-    landuse_clean, 
+natural_mic = compute_mic(
+    natural_clean, 
     min_radius = MIN_RADIUS, 
     max_radius = MAX_RADIUS,
     boundary_buffer = BOUNDARY_BUFFER )
 
-#natural_mic = compute_mic(
-    #natural_clean, 
-    #min_radius = MIN_RADIUS, 
-    #max_radius = MAX_RADIUS,
-    #boundary_buffer = BOUNDARY_BUFFER )
-
-#manmade_mic = compute_mic(
-    #manmade_clean, 
-    #min_radius = MIN_RADIUS, 
-    #max_radius = MAX_RADIUS,
-    #boundary_buffer = BOUNDARY_BUFFER )
+manmade_mic = compute_mic(
+    manmade_clean, 
+    min_radius = MIN_RADIUS, 
+    max_radius = MAX_RADIUS,
+    boundary_buffer = BOUNDARY_BUFFER )
 
 
 # Saving outputs to a new shapefile -------
 
 #new natural land polygons to new shapefile
-landuse_mic_safe.to_file("out/landuse_MIC_safe.shp")
+#landuse_mic_safe.to_file("out/landuse_MIC_safe.shp")
 
 #new natural land polygons to new shapefile
-#natural_mic.to_file("out/natural_MIC_safe.shp")
+natural_mic.to_file("out/natural_MIC_safe.shp")
+
 #new manmade land polygons to new shapefile
-#manmade_mic.to_file("out/manmade_MIC_safe.shp")
+manmade_mic.to_file("out/manmade_MIC_safe.shp")
 
 #read new landuse land polygons
-#natural_MIC_safe = gpd.read_file("out/natural_MIC_safe.shp")
-#manmade_MIC_safe = gpd.read_file("out/manmade_MIC_safe.shp")
+natural_MIC_safe = gpd.read_file("out/natural_MIC_safe.shp")
+manmade_MIC_safe = gpd.read_file("out/manmade_MIC_safe.shp")
 
 
 
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
 
 #read file for combined land use MIC - only natural and manmade surfaces
-MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp")
+MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp").to_crs(landuse.crs)
 
 # USER DEFINED WEIGHTING (must sum up to 1.0) ------
 # creating 5 different scenarios because need to have everything on one grid
