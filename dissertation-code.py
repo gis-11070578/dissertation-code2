@@ -458,14 +458,16 @@ for i, row in MIC_landuse.iterrows():
     MIC_landuse.loc[i, "score_tanksize"] = score
 
 
-# FLOOD RISK SCORING ------
+# FLOOD ZONE 2 AND 3 RISK SCORING ------
 
 #insuring that all non intersecting circles are highly rated
-MIC_landuse["score_flood_2"] = 1.0
-MIC_landuse["score_flood_3"] = 1.0
+MIC_landuse["score_flood"] = 1.0
 
-# FLOOD ZONE 2 ----
-#flood zone 2 - medium risk 
+#MIC_landuse["score_flood_2"] = 1.0
+#MIC_landuse["score_flood_3"] = 1.0
+
+# FLOOD ZONE 2 ---- 
+#flood zone 3 - medium risk
 
 #loop through each row in the MIC circles
 for i, row in MIC_landuse.iterrows(): 
@@ -477,16 +479,16 @@ for i, row in MIC_landuse.iterrows():
     if floodzone_2.intersects(circle).any():
         
         #medium risk - so its more preferred (not the best - moderdate penalty)
-        MIC_landuse.loc[i, "score_flood_2"] = 0.5
+        MIC_landuse.loc[i, "score_flood"] = 0.5
 
 # FLOOD ZONE 3 ----
 #flood zone 3 - high risk 
 
-    #if mic intersect with flood zone 3 - score (between 0-1)
-    if floodzone_3.intersects(circle).any():
+    #else if mic intersect with flood zone 3 - score (between 0-1)
+    elif floodzone_3.intersects(circle).any():
         
         #high risk - higher penalty - almost excluded
-        MIC_landuse.loc[i, "score_flood_3"] = 0.3
+        MIC_landuse.loc[i, "score_flood"] = 0.3
 
 
 
