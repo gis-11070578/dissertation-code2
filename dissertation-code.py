@@ -202,12 +202,12 @@ floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip.shp").to_crs(landuse.crs)
 floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip.shp").to_crs(landuse.crs)
 
 
-#combine floodzone 2 and floodzone 3 ---------
+#combine floodzone 2 and floodzone 3 -----------
 #merge and combine both shapefiles
 all_floodzones = gpd.pd.concat([floodzone_2, floodzone_3]).to_crs(landuse.crs)
 
 
-# pre-processing for plotting the maps ------
+# pre-processing for plotting the maps --------
 #select by attributes - rivers
 inland_water = landuse[landuse["Name"].str.contains("Inland Water")]
 
@@ -261,13 +261,9 @@ natural_land = landuse[landuse["Name"].str.contains("Natural Land")]
 #select by attributes - manmade surface
 manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 
-
 #combine natural land and manmade land ---------
 #merge and combine both shapefiles - dont need all landuse but need 2 layers
-landuse_NM = gpd.pd.concat([natural_land, manmade_land])
-
-#reproject into same crs
-landuse_NM = landuse_NM.to_crs(landuse.crs)
+landuse_NM = gpd.pd.concat([natural_land, manmade_land]).to_crs(landuse.crs)
 
 
 # Running the erase contour function -------
