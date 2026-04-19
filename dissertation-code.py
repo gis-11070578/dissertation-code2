@@ -178,44 +178,33 @@ def compute_mic(gdf, min_radius, max_radius, boundary_buffer):
 # Main Code -------------------------------------
 
 # Load all spatial data ----------
-
-#load all contours - vector
-contours = gpd.read_file("data/SlopeContour_polygon.shp")
+#ensure all the same CRS
 
 #load all landuse - vector
 landuse = gpd.read_file("data/Land-Use-All.shp")
 
+#load all contours - vector
+contours = gpd.read_file("data/SlopeContour_polygon.shp").to_crs(landuse.crs)
+
 #load Bath CSO - vector
-cso = gpd.read_file("data/BathLambridgeCSO.shp")
+cso = gpd.read_file("data/BathLambridgeCSO.shp").to_crs(landuse.crs)
 
 #load Bath Outfall - vector
-outfall = gpd.read_file("data/BathLambridgeOutfall.shp")
+outfall = gpd.read_file("data/BathLambridgeOutfall.shp").to_crs(landuse.crs)
 
 #load Bath CSO to outfall - vector
-cso2outfall = gpd.read_file("data/BathCSO2Outfall.shp")
+cso2outfall = gpd.read_file("data/BathCSO2Outfall.shp").to_crs(landuse.crs)
 
 #load all flood zone 2 - raster 
-floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip.shp")
+floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip.shp").to_crs(landuse.crs)
 
 #load all flood zone 3 - raster 
-floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip.shp")
+floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip.shp").to_crs(landuse.crs)
 
-
-#ensure all the same CRS ---------
-
-contours = contours.to_crs(landuse.crs)
-cso = cso.to_crs(landuse.crs)
-outfall = outfall.to_crs(landuse.crs)
-cso2outfall = cso2outfall.to_crs(landuse.crs)
-floodzone_2 = floodzone_2.to_crs(landuse.crs)
-floodzone_3 = floodzone_3.to_crs(landuse.crs)
 
 #combine floodzone 2 and floodzone 3 ---------
 #merge and combine both shapefiles
-all_floodzones = gpd.pd.concat([floodzone_2, floodzone_3])
-
-#reproject into same crs
-all_floodzones = all_floodzones.to_crs(landuse.crs)
+all_floodzones = gpd.pd.concat([floodzone_2, floodzone_3]).to_crs(landuse.crs)
 
 
 # pre-processing for plotting the maps ------
@@ -272,9 +261,6 @@ natural_land = landuse[landuse["Name"].str.contains("Natural Land")]
 #select by attributes - manmade surface
 manmade_land = landuse[landuse["Name"].str.contains("Manmade Surface")]
 
-#printing a count of all raw polygons in attributes
-#print(f"Natural RAW Polygons: {len(natural_land)}")
-#print(f"Manmade RAW Polygons: {len(manmade_land)}")
 
 #combine natural land and manmade land ---------
 #merge and combine both shapefiles - dont need all landuse but need 2 layers
