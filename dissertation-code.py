@@ -461,13 +461,10 @@ for i, row in MIC_landuse.iterrows():
 # FLOOD ZONE 2 AND 3 RISK SCORING ------
 
 #insuring that all non intersecting circles are highly rated
-MIC_landuse["score_flood"] = 1.0
+MIC_landuse["score_floods"] = 1.0
 
-#MIC_landuse["score_flood_2"] = 1.0
-#MIC_landuse["score_flood_3"] = 1.0
-
-# FLOOD ZONE 2 ---- 
-#flood zone 3 - medium risk
+# FLOOD ZONE 3 ---- 
+#flood zone 3 - high risk
 
 #loop through each row in the MIC circles
 for i, row in MIC_landuse.iterrows(): 
@@ -475,22 +472,21 @@ for i, row in MIC_landuse.iterrows():
     #circle geometry for each MIC 
     circle = row.geometry
 
+    #do FZ3 first because it is inside FZ2 - nests - dont want to re-score
     #if mic intersect with flood zone 2 - score (between 0-1)
-    if floodzone_2.intersects(circle).any():
-        
-        #medium risk - so its more preferred (not the best - moderdate penalty)
-        MIC_landuse.loc[i, "score_flood"] = 0.5
-
-# FLOOD ZONE 3 ----
-#flood zone 3 - high risk 
-
-    #else if mic intersect with flood zone 3 - score (between 0-1)
-    elif floodzone_3.intersects(circle).any():
+    if floodzone_3.intersects(circle).any():
         
         #high risk - higher penalty - almost excluded
-        MIC_landuse.loc[i, "score_flood"] = 0.3
+        MIC_landuse.loc[i, "score_floods"] = 0.3
 
+# FLOOD ZONE 2 ----
+#flood zone 2 - medium risk 
 
+    #else if mic intersect with flood zone 3 - score (between 0-1)
+    elif floodzone_2.intersects(circle).any():
+
+        #medium risk - so its more preferred (not the best - moderdate penalty)
+        MIC_landuse.loc[i, "score_floods"] = 0.5
 
 # PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
 
