@@ -200,6 +200,7 @@ floodzone_2 = gpd.read_file("data/EAFloodZone_2_Clip.shp")
 #load all flood zone 3 - raster 
 floodzone_3 = gpd.read_file("data/EAFloodZone_3_Clip.shp")
 
+
 #ensure all the same CRS ---------
 
 contours = contours.to_crs(landuse.crs)
@@ -208,6 +209,13 @@ outfall = outfall.to_crs(landuse.crs)
 cso2outfall = cso2outfall.to_crs(landuse.crs)
 floodzone_2 = floodzone_2.to_crs(landuse.crs)
 floodzone_3 = floodzone_3.to_crs(landuse.crs)
+
+#combine floodzone 2 and floodzone 3 ---------
+#merge and combine both shapefiles
+all_floodzones = gpd.pd.concat([floodzone_2, floodzone_3])
+
+#reproject into same crs
+all_floodzones = all_floodzones.to_crs(landuse.crs)
 
 
 # pre-processing for plotting the maps ------
