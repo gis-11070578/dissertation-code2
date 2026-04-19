@@ -311,7 +311,6 @@ landuse_mic_safe = compute_mic(
 landuse_mic_safe.to_file("out/landuse_MIC_safe.shp")
 
 
-
 # SECTION 3 - Creating weighted overlays (user defined) ------------------
 
 #read file for combined land use MIC - only natural and manmade surfaces
@@ -324,11 +323,10 @@ MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp").to_crs(landuse.crs)
 scenarios = {
 #even scenario weighting so all is 0.2 
     "Even Weighting": {
-    "W_DISTANCE": 0.20,
-    "W_LANDUSE": 0.20,
-    "W_TANKSIZE": 0.20,
-    "W_FLOODZONE_2": 0.20,
-    "W_FLOODZONE_3": 0.20}, 
+    "W_DISTANCE": 0.25,
+    "W_LANDUSE": 0.25,
+    "W_TANKSIZE": 0.25,
+    "W_FLOODZONES": 0.25}, 
     
 #distance priority - then landuse - then tank - then FZ
     "Distance Priority": {
