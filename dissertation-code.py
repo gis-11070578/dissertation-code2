@@ -444,15 +444,19 @@ for i, row in MIC_landuse.iterrows():
 
     #if mic intersects manmade surfaces - score new field
     if manmade_land.intersects(circle).any(): 
-        MIC_landuse.loc[i, "score_landuse"] = 1
+        
+        #prefered land use - 1 is highest score
+        MIC_landuse.loc[i, "score_landuse"] = 1.0
     
     #if mic intersects natural land - score new field
     elif natural_land.intersects(circle).any(): 
+        
+        #useable but not prefered 
         MIC_landuse.loc[i, "score_landuse"] = 0.5
     
     #else then score 0
     else: 
-        MIC_landuse.loc[i, "score_landuse"] = 0.3
+        MIC_landuse.loc[i, "score_landuse"] = 0.0
 
 
 # TANK SIZE SCORING -------
@@ -500,14 +504,18 @@ for i, row in MIC_landuse.iterrows():
 
     #if mic intersect with flood zone 2 - score (between 0-1)
     if floodzone_2.intersects(circle).any():
-        MIC_landuse.loc[i, "score_flood_2"] = 0.4
+        
+        #medium risk - so its more preferred (not the best - moderdate penalty)
+        MIC_landuse.loc[i, "score_flood_2"] = 0.5
 
 # FLOOD ZONE 3 ----
 #flood zone 3 - high risk 
 
     #if mic intersect with flood zone 3 - score (between 0-1)
     if floodzone_3.intersects(circle).any():
-        MIC_landuse.loc[i, "score_flood_3"] = 0.5
+        
+        #high risk - higher penalty - almost excluded
+        MIC_landuse.loc[i, "score_flood_3"] = 0.3
 
 
 
@@ -515,7 +523,7 @@ for i, row in MIC_landuse.iterrows():
 
 # plot the dataset - 5 different maps -----------
 fig, my_ax = subplots(2, 3, figsize=(14, 9))
-fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=20, weight='bold')
+fig.suptitle('Tank Sensitivity Testing - 6 Differently Weighted Scenarios ', fontsize=20, weight='bold')
 
 #flattening 2D array into 1D - so that its easy to loop
 axes = my_ax.flatten()
