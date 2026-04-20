@@ -697,8 +697,8 @@ savefig('out/All_Scenarios.png', bbox_inches='tight')
 # overall score between everything
 all_scenarios["mean_score"] = all_scenarios[
         ["Even_Weighting", "Distance_Priority", "Flood_Zones_Priority",
-         "Tank_Size-Priority", "Land_Use_Priority"]].mean
-
+         "Tank_Size-Priority", "Land_Use_Priority"]].mean(axis=1)
+                    # axis 1 means calc mean across each row
 
 # EXPORT TO EXCEL ---
 all_scenarios.to_csv("out/final_results")
