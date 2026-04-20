@@ -291,6 +291,8 @@ manmade_clean.to_file("out/manmade_clean.shp")
 #merge and combine both shapefiles - dont need all landuse but need 2 layers
 landuse_clean = gpd.pd.concat([natural_clean, manmade_clean]).to_crs(landuse.crs)
 
+#new landuse polygons to new shapefile - save it
+landuse_clean.to_file("out/landuse_clean.shp")
 
 # SECTION 2 - Finding max inscribed circle in each polygon ------------------------
 
@@ -323,7 +325,7 @@ MIC_landuse = gpd.read_file("out/landuse_MIC_safe.shp").to_crs(landuse.crs)
 scenarios = {
 #scenario 1 -
 #even scenario weighting so all is 0.2 
-    "Even Weighting": {
+    "Even_Weighting": {
     "W_DISTANCE": 0.25,
     "W_LANDUSE": 0.25,
     "W_TANKSIZE": 0.25,
@@ -332,7 +334,7 @@ scenarios = {
     
 #scenario 2 -
 #distance priority - then landuse - then tank - then FZ
-    "Distance Priority": {
+    "Distance_Priority": {
     "W_DISTANCE": 0.50,
     "W_LANDUSE": 0.20,
     "W_TANKSIZE": 0.15,
@@ -341,7 +343,7 @@ scenarios = {
 
 #scenario 3 -
 #flood zones priority - then landuse - distance - then tank
-    "Flood Zones Priority": {
+    "Flood_Zones_Priority": {
     "W_DISTANCE": 0.15,
     "W_LANDUSE": 0.20,
     "W_TANKSIZE": 0.15,
@@ -350,7 +352,7 @@ scenarios = {
 
 #scenario 4 -
 #tanksize priority - then distance - then landuse - then FZ
-    "Tank Size Priority": {
+    "Tank_Size_Priority": {
     "W_DISTANCE": 0.20,
     "W_LANDUSE": 0.15,
     "W_TANKSIZE": 0.50,
@@ -359,7 +361,7 @@ scenarios = {
     
 #scenario 5 -
 #landuse priority - then distance - then tanksize - then FZ
-    "Land Use Priority": {
+    "Land_Use_Priority": {
     "W_DISTANCE": 0.20,
     "W_LANDUSE": 0.50,
     "W_TANKSIZE": 0.15,
@@ -484,6 +486,7 @@ for i, row in MIC_landuse.iterrows():
 
         #medium risk - so its more preferred (not the best - moderdate penalty)
         MIC_landuse.loc[i, "score_floods"] = 0.5
+        
 
 # PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
 
@@ -522,6 +525,11 @@ for ax in target:
     ax.set_position([box.x0 + shift_right, box.y0 + shift_up, box.width, box.height])
 
 
+# BEFORE FINAL WEIGHTING LOOP ----
+
+#all results need to be embedded into mic landuse - taking copy 
+all_scenarios = MIC_landuse.copy()
+
 # FINAL WEIGHTING SCORE LOOP -------
 
 #loop through each each scenario and do the calc weights
@@ -546,6 +554,10 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     #EXPORT SHAPEFILE -----
     #exporting new shapefile independently - diff name
     scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
+    
+    #creating combined all scenarios - adding column to master dataset
+    all_scenarios[f"{scenario_name}_Final"] = scenario_gdf["final_score"]
+    
     
     # looping the axes plot dataset -----------------
     # new variable ax is the index of each axis section
@@ -634,6 +646,9 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     # add scalebar - for all 
     ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
 
+
+#EXPORT SHAPEFILE - MASTER DATASET ----
+all_scenarios.to_file("out/MIC_ALL_SCENARIOS.shp")
 
 #Legend for all - outside loop and outside map -----
 # add legend - shared between all 
