@@ -670,7 +670,7 @@ fig.legend(handles=[
 
 #add a colour bar - combined outside loop for all
 #manual axes - outside the maps (left, bottom, width, height)
-cbar_ax = fig.add_axes([1.02, 0.1, 0.02, 0.35])
+cbar_ax = fig.add_axes([1.01, 0.15, 0.05, 0.75])
 
 #adding colour bar 
 fig.colorbar(
@@ -683,7 +683,6 @@ fig.colorbar(
     orientation = "vertical", #change so that it fits the bottom
     pad=0.1, 
     label = 'Final Weighted Score' ) #distance from the maps
-
 
 # save the result
 savefig('out/All_Scenarios.png', bbox_inches='tight')
