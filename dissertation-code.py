@@ -698,7 +698,7 @@ savefig('out/All_Scenarios.png', bbox_inches='tight')
 
 
 # EXPORT TO EXCEL 
-
+all_scenarios.to_csv("out/final_results")
 
 
 # --- NO CODE BELOW HERE ---
