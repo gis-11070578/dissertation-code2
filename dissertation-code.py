@@ -483,11 +483,17 @@ for i, row in MIC_landuse.iterrows():
 # PLOTTING ALL 5 SCENARIOS + CALCS USING LOOP -----------------------------------
 
 # plot the dataset - 5 different maps -----------
-fig, my_ax = subplots(2, 3, figsize=(14, 9))
+fig, my_ax = subplots(2, 3, figsize=(14, 10))
 fig.suptitle('Tank Sensitivity Testing - 6 Differently Weighted Scenarios ', fontsize=20, weight='bold')
 
 #flattening 2D array into 1D - so that its easy to loop
 axes = my_ax.flatten()
+
+#want to hide the 6th plot so that its not visible (not using)
+
+# top 3 maps all evenly spaced out - auto
+# bottom 2 maps centred under the 3 top ones - set position
+
 
 
 # FINAL WEIGHTING SCORE LOOP -------
