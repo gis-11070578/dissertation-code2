@@ -705,23 +705,28 @@ savefig('out/All_Scenarios.png', bbox_inches='tight')
 # .rank() for rank
 
 all_scenarios["even_rank"] = all_scenarios["Even_Weighting_Final"].rank(ascending=False)
-
+all_scenarios["distance_rank"] = all_scenarios["Distance_Priority_Final"].rank(ascending=False)
+all_scenarios["flood_rank"] = all_scenarios["Flood_Zones_Priority_Final"].rank(ascending=False)
+all_scenarios["tank_rank"] = all_scenarios["Tank_Size_Priority_Final"].rank(ascending=False)
+all_scenarios["landuse_rank"] = all_scenarios["Land_Use_Priority_Final"].rank(ascending=False)
 
 #adding new field for the mean calculation ---
 # .mean() for mean
-all_scenarios["mean_score"] = all_scenarios[
+all_scenarios["Mean_Score"] = all_scenarios[
         ["Even_Weighting_Final", "Distance_Priority_Final", "Flood_Zones_Priority_Final",
          "Tank_Size_Priority_Final", "Land_Use_Priority_Final"]].mean(axis=1)
                     # axis 1 means calc mean across each row
                     
 # adding ranking field for the mean score 
+all_scenarios["mean_rank"] = all_scenarios["mean_score"].rank(ascending=False)
 
-#save new field back into shapefile 
 
+#save new field back into shapefile ---
+all_scenarios.to_file("out/MIC_ALL_SCENARIOS")
 
 
 # EXPORT TO EXCEL -----
-all_scenarios.to_csv("out/final_results.csv")
+all_scenarios.to_csv("out/Final_MIC_Results.csv")
 
 
 # --- NO CODE BELOW HERE -----
