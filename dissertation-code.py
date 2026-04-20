@@ -498,22 +498,26 @@ axes = my_ax.flatten()
 #axes 5 because starts from 0 to 5 (6 axes)
 axes[5].set_visible(False)
 
+#tight layout so theres no gaps
+fig.tight_layout(pad=1)
+
 # top 3 maps all evenly spaced out - auto
 # bottom 2 maps centred under the 3 top ones - set position
 # set position - left , bottom , width ,  height 
 
 #shift position to the right
-shift = 2.5
+shift = 0.15
 
 #target axes 3 and 4 
-target = axes[3], axes[4]
+target = [axes[3], axes[4]]
 
 #need to get the original axes 
-for axes in target: 
-    #assign box axis 
+for ax in target: 
+    #get the position for the box axis
+    box = ax.get_position()
     
-axes[3].set_position([0.5, 0, 0, 0])
-
+    #shift only left to the right using shift variable
+    ax.set_position([box.x0 + shift, box.y0, box.width, box.height])
 
 
 # FINAL WEIGHTING SCORE LOOP -------
@@ -554,7 +558,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 
     #USER DEFINED PARAMETER
     #buffer around the border itself - to give us some context
-    CSO_ZOOM_BUFFER = scenarios["ZOOM"]
+    CSO_ZOOM_BUFFER = weights["ZOOM"]
 
     # extract the bounds from the CSO layer
     cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
@@ -647,9 +651,6 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
             Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
             Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
             ],loc='upper left', fontsize=6)
-
-#tight layout so theres no gaps
-fig.tight_layout(pad=3)
 
 # add scalebar - for all 
 ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
