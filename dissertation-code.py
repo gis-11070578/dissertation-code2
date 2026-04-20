@@ -702,10 +702,13 @@ savefig('out/All_Scenarios.png', bbox_inches='tight')
 # Adding ranking fields for each scenario --- 
 # 5 new fields for each scenario ranking the best score to last
 # 1 is best suitability - in order or rank descending
+# .rank() for rank
 
+all_scenarios["even_rank"] = all_scenarios["Even_Weighting_Final"].rank(ascending=False)
 
 
 #adding new field for the mean calculation ---
+# .mean() for mean
 all_scenarios["mean_score"] = all_scenarios[
         ["Even_Weighting_Final", "Distance_Priority_Final", "Flood_Zones_Priority_Final",
          "Tank_Size_Priority_Final", "Land_Use_Priority_Final"]].mean(axis=1)
