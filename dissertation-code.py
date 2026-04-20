@@ -630,6 +630,11 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
                    arrowprops=dict(facecolor='black', width=5, headwidth=15),
                    ha='center', va='center', fontsize=10, xycoords=ax.transAxes)
 
+    # add scalebar - for all 
+    ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
+
+
+#Legend for all - outside loop and outside map -----
     # add legend
     ax.legend(handles=[
         Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
@@ -652,18 +657,15 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
             Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
             ],loc='upper left', fontsize=6)
 
-# add scalebar - for all 
-ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
-
 #add a colour bar
-#fig.colorbar(
-    #ScalarMappable(
-        #norm=Normalize(
-            #vmin=MIC_landuse["final_score"].min()), 
-            #vmax=MIC_landuse["final_score"].max()), 
-#cmap='Reds', ax=ax,
-    #orientation = "horizontal", #change so that it fits the bottom
-    #pad=0.1 ) #distance from the maps
+fig.colorbar(
+    ScalarMappable(
+        norm=Normalize(
+            vmin=MIC_landuse["final_score"].min(), 
+            vmax=MIC_landuse["final_score"].max()), 
+        cmap='Reds'),
+        orientation = "horizontal", #change so that it fits the bottom
+        pad=0.1 ) #distance from the maps
 
 
 # save the result
