@@ -690,18 +690,21 @@ fig.colorbar(
 
 # save the result
 savefig('out/All_Scenarios.png', bbox_inches='tight')
-#print("done!")  
+
 
 # Extra Analysis ------------------------
 # mean score between all scenarios - are there any top ranked ones overall 
 # overall score between everything
+all_scenarios["mean_score"] = all_scenarios[
+        ["Even_Weighting", "Distance_Priority", "Flood_Zones_Priority",
+         "Tank_Size-Priority", "Land_Use_Priority"]].mean
 
 
-# EXPORT TO EXCEL 
+# EXPORT TO EXCEL ---
 all_scenarios.to_csv("out/final_results")
 
 
-# --- NO CODE BELOW HERE ---
+# --- NO CODE BELOW HERE -----
 
 # report runtime
 print(f"completed in: {perf_counter() - start_time} seconds")
