@@ -553,7 +553,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     
     #EXPORT SHAPEFILE -----
     #exporting new shapefile independently - diff name
-    scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
+    #scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
     
     #creating combined all scenarios - adding column to master dataset
     all_scenarios[f"{scenario_name}_Final"] = scenario_gdf["final_score"]
@@ -652,23 +652,12 @@ all_scenarios.to_file("out/MIC_ALL_SCENARIOS.shp")
 
 #Legend for all - outside loop and outside map -----
 # add legend - shared between all 
-
-#ax.legend(handles=[
-    #Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
-    #Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
-    #Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-    #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
-    #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall')
-    #],loc='upper left', fontsize=6)
-        
-    #adding flood zone legend only for 2 scenarios 
-    #if scenario_name in ["Flood Zones Priority"]:
         
 fig.legend(handles=[
     Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
     Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
     Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
-    Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=5, label='Lambridge CSO'),
+    Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=7, label='Lambridge CSO'),
     #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall'
     
     #flood zone 2 and 3 patch colours
@@ -685,7 +674,7 @@ fig.legend(handles=[
 
 #add a colour bar - combined outside loop for all
 #manual axes - outside the maps (left, bottom, width, height)
-cbar_ax = fig.add_axes([1.01, 0.15, 0.05, 0.75])
+cbar_ax = fig.add_axes([1.01, 0.15, 0.03, 0.75])
 
 #adding colour bar 
 fig.colorbar(
@@ -702,6 +691,15 @@ fig.colorbar(
 # save the result
 savefig('out/All_Scenarios.png', bbox_inches='tight')
 #print("done!")  
+
+# Extra Analysis ------------------------
+# mean score between all scenarios - are there any top ranked ones overall 
+# overall score between everything
+
+
+# EXPORT TO EXCEL 
+
+
 
 # --- NO CODE BELOW HERE ---
 
