@@ -501,8 +501,19 @@ axes[5].set_visible(False)
 # top 3 maps all evenly spaced out - auto
 # bottom 2 maps centred under the 3 top ones - set position
 # set position - left , bottom , width ,  height 
+
+#shift position to the right
+shift = 2.5
+
+#target axes 3 and 4 
+target = axes[3], axes[4]
+
+#need to get the original axes 
+for axes in target: 
+    #assign box axis 
+    
 axes[3].set_position([0.5, 0, 0, 0])
-axes[4].set_position([0.5, 0, 0, 0])
+
 
 
 # FINAL WEIGHTING SCORE LOOP -------
@@ -543,7 +554,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 
     #USER DEFINED PARAMETER
     #buffer around the border itself - to give us some context
-    CSO_ZOOM_BUFFER = 350
+    CSO_ZOOM_BUFFER = scenarios["ZOOM"]
 
     # extract the bounds from the CSO layer
     cso_buffer = cso.geometry.buffer(CSO_ZOOM_BUFFER)
