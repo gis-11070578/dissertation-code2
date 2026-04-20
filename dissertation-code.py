@@ -490,6 +490,7 @@ fig.suptitle('Tank Sensitivity Testing - 6 Differently Weighted Scenarios ', fon
 axes = my_ax.flatten()
 
 #want to hide the 6th plot so that its not visible (not using)
+axes[5].set_visible(False)
 
 # top 3 maps all evenly spaced out - auto
 # bottom 2 maps centred under the 3 top ones - set position
