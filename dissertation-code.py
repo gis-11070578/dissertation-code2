@@ -695,14 +695,16 @@ savefig('out/All_Scenarios.png', bbox_inches='tight')
 # Extra Analysis ------------------------
 # mean score between all scenarios - are there any top ranked ones overall 
 # overall score between everything
+
+#print(all_scenarios.columns.tolist())
+
 all_scenarios["mean_score"] = all_scenarios[
-        ["Even_Weight", "Distance_P", "Flood_Zone",
-         "Tank_Size_", "Land_Use_P"]].mean(axis=1)
+        ["Even_Weighting_Final", "Distance_Priority_Final", "Flood_Zones_Priority_Final",
+         "Tank_Size_Priority_Final", "Land_Use_Priority_Final"]].mean(axis=1)
                     # axis 1 means calc mean across each row
-#note that names are based on arcgis - cant take whole name character cut off
 
 # EXPORT TO EXCEL ---
-all_scenarios.to_csv("out/final_results")
+all_scenarios.to_csv("out/final_results.csv")
 
 
 # --- NO CODE BELOW HERE -----
