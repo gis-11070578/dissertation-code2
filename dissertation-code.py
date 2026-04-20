@@ -693,17 +693,31 @@ savefig('out/All_Scenarios.png', bbox_inches='tight')
 
 
 # Extra Analysis ------------------------
+# ranking for each scenario within arc
 # mean score between all scenarios - are there any top ranked ones overall 
 # overall score between everything
 
 #print(all_scenarios.columns.tolist())
 
+# Adding ranking fields for each scenario --- 
+# 5 new fields for each scenario ranking the best score to last
+# 1 is best suitability - in order or rank descending
+
+
+
+#adding new field for the mean calculation ---
 all_scenarios["mean_score"] = all_scenarios[
         ["Even_Weighting_Final", "Distance_Priority_Final", "Flood_Zones_Priority_Final",
          "Tank_Size_Priority_Final", "Land_Use_Priority_Final"]].mean(axis=1)
                     # axis 1 means calc mean across each row
+                    
+# adding ranking field for the mean score 
 
-# EXPORT TO EXCEL ---
+#save new field back into shapefile 
+
+
+
+# EXPORT TO EXCEL -----
 all_scenarios.to_csv("out/final_results.csv")
 
 
