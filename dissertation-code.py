@@ -499,7 +499,7 @@ axes = my_ax.flatten()
 axes[5].set_visible(False)
 
 #tight layout so theres no gaps
-fig.tight_layout(pad=1)
+fig.tight_layout(pad=1.5)
 
 # top 3 maps all evenly spaced out - auto
 # bottom 2 maps centred under the 3 top ones - set position
