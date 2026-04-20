@@ -547,7 +547,8 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     #exporting new shapefile independently - diff name
     scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
     
-    #EXPORT combined all -- 
+    #EXPORT combined all ----
+    All_MIC_scores = gdp.pd.concat([])
 
     # looping the axes plot dataset -----------------
     # new variable ax is the index of each axis section
@@ -681,6 +682,7 @@ fig.colorbar(
             vmin=MIC_landuse["final_score"].min(), 
             vmax=MIC_landuse["final_score"].max()), 
         cmap='Reds'),
+    cax=cbar_ax,
     orientation = "vertical", #change so that it fits the bottom
     pad=0.1, 
     label = 'Final Weighted Score' ) #distance from the maps
