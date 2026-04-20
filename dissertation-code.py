@@ -505,8 +505,10 @@ fig.tight_layout(pad=1.5)
 # bottom 2 maps centred under the 3 top ones - set position
 # set position - left , bottom , width ,  height 
 
-#shift position to the right
-shift = 0.15
+#loop so that both axes move ------
+#shift position to the right and up
+shift_right= 0.15
+shift_up = 0.03
 
 #target axes 3 and 4 
 target = [axes[3], axes[4]]
@@ -517,7 +519,7 @@ for ax in target:
     box = ax.get_position()
     
     #shift only left to the right using shift variable
-    ax.set_position([box.x0 + shift, box.y0, box.width, box.height])
+    ax.set_position([box.x0 + shift_right, box.y0 + shift_up, box.width, box.height])
 
 
 # FINAL WEIGHTING SCORE LOOP -------
