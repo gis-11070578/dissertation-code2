@@ -524,9 +524,6 @@ for ax in target:
 
 # FINAL WEIGHTING SCORE LOOP -------
 
-#EXPORT combined all ----
-all_scenarios_combined = []
-
 #loop through each each scenario and do the calc weights
 #for each index, in each ax, loop through dictionary scenarios and their weights
 for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items())): 
@@ -549,9 +546,6 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     #EXPORT SHAPEFILE -----
     #exporting new shapefile independently - diff name
     scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
-    
-    #EXPORT combined all ----
-    scenario_gdf["scenario"] = scenario_name # new row for scenario name
     
     # looping the axes plot dataset -----------------
     # new variable ax is the index of each axis section
@@ -682,8 +676,8 @@ cbar_ax = fig.add_axes([1.02, 0.1, 0.02, 0.35])
 fig.colorbar(
     ScalarMappable(
         norm=Normalize(
-            vmin=MIC_landuse["final_score"].min(), 
-            vmax=MIC_landuse["final_score"].max()), 
+            vmin=0, 
+            vmax=1), 
         cmap='Reds'),
     cax=cbar_ax,
     orientation = "vertical", #change so that it fits the bottom
