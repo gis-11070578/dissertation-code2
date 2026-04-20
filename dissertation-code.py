@@ -359,15 +359,7 @@ scenarios = {
     "W_DISTANCE": 0.20,
     "W_LANDUSE": 0.50,
     "W_TANKSIZE": 0.15,
-    "W_FLOODZONES": 0.15},
-
-#scenario 6 -
-#distance and flood priority - then distance - then tanksize - then FZ
-    "Distance and Flood Priority": {
-    "W_DISTANCE": 0.35,
-    "W_LANDUSE": 0.15,
-    "W_TANKSIZE": 0.15,
-    "W_FLOODZONES": 0.35}}
+    "W_FLOODZONES": 0.15}}
 
 
 # DISTANCE FROM CSO - NEED LOCATION -----
@@ -567,7 +559,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 
     #plotting flood zones -----
     # only for scenarios 3 and 6 - with flood zones 
-    if scenario_name in ["Flood Zones Priority", "Distance and Flood Priority"]:
+    if scenario_name in ["Flood Zones Priority"]:
         
         #flood zone 2
         floodzone_2.plot(ax = ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
@@ -618,7 +610,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
         ],loc='upper left', fontsize=6)
         
     #adding flood zone legend only for 2 scenarios 
-    if scenario_name in ["Flood Zones Priority", "Distance and Flood Priority"]:
+    if scenario_name in ["Flood Zones Priority"]:
         
         ax.legend(handles=[
             Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
