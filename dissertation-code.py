@@ -338,12 +338,12 @@ scenarios = {
     "W_FLOODZONES": 0.15}, 
 
 #scenario 3 -
-#flood zones priority - then distance + landuse same - then tank
+#flood zones priority - then landuse - distance - then tank
     "Flood Zones Priority": {
     "W_DISTANCE": 0.15,
-    "W_LANDUSE": 0.15,
-    "W_TANKSIZE": 0.10,
-    "W_FLOODZONES": 0.60}, 
+    "W_LANDUSE": 0.20,
+    "W_TANKSIZE": 0.15,
+    "W_FLOODZONES": 0.50}, 
 
 #scenario 4 -
 #tanksize priority - then distance - then landuse - then FZ
@@ -422,7 +422,7 @@ for i, row in MIC_landuse.iterrows():
     #if mic intersects natural land - score new field
     elif natural_land.intersects(circle).any(): 
         
-        #useable but not prefered 
+        #useable but not prefered - half penalty
         MIC_landuse.loc[i, "score_landuse"] = 0.5
     
     #else then score 0
