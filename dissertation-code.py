@@ -546,7 +546,8 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     #EXPORT SHAPEFILE -----
     #exporting new shapefile independently - diff name
     scenario_gdf.to_file(f"out/MIC_{scenario_name}.shp")
-
+    
+    #EXPORT combined all -- 
 
     # looping the axes plot dataset -----------------
     # new variable ax is the index of each axis section
@@ -650,7 +651,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
     #adding flood zone legend only for 2 scenarios 
     #if scenario_name in ["Flood Zones Priority"]:
         
-ax.legend(handles=[
+fig.legend(handles=[
     Patch(facecolor='#ccebc5', edgecolor='green', label="Natural Land"),
     Patch(facecolor='#aa74b0', edgecolor='purple', label="Manmade Surface"),
     Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
@@ -659,22 +660,30 @@ ax.legend(handles=[
     
     #flood zone 2 and 3 patch colours
     Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
-    Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")
-    ],loc='upper left', fontsize=7)
+    Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")],
+    loc='center right',
+    # 0.32/0.30 for middle and 0.37 for top aligned
+    bbox_to_anchor= (0.99, 0.31), #push outside boundary (left/right, up/down)
+    fontsize=14, 
+    frameon=True, # get the frame
+    title="Legend",
+    title_fontsize= 16)
 
 
-#figure legend axes location 
+#add a colour bar - combined outside loop for all
+#manual axes - outside the maps (left, bottom, width, height)
+cbar_ax = fig.add_axes([1.02, 0.1, 0.02, 0.35])
 
-
-#add a colour bar
+#adding colour bar 
 fig.colorbar(
     ScalarMappable(
         norm=Normalize(
             vmin=MIC_landuse["final_score"].min(), 
             vmax=MIC_landuse["final_score"].max()), 
         cmap='Reds'),
-        orientation = "horizontal", #change so that it fits the bottom
-        pad=0.1 ) #distance from the maps
+    orientation = "vertical", #change so that it fits the bottom
+    pad=0.1, 
+    label = 'Final Weighted Score' ) #distance from the maps
 
 
 # save the result
