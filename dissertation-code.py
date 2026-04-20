@@ -484,7 +484,7 @@ for i, row in MIC_landuse.iterrows():
 
 # plot the dataset - 5 different maps -----------
 fig, my_ax = subplots(2, 3, figsize=(14, 10))
-fig.suptitle('Tank Sensitivity Testing - 6 Differently Weighted Scenarios ', fontsize=20, weight='bold')
+fig.suptitle('Tank Sensitivity Testing - 5 Differently Weighted Scenarios ', fontsize=20, weight='bold')
 
 #flattening 2D array into 1D - so that its easy to loop
 axes = my_ax.flatten()
@@ -630,7 +630,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
             ],loc='upper left', fontsize=6)
 
 #tight layout so theres no gaps
-fig.tight_layout(pad=1.5)
+fig.tight_layout(pad=3)
 
 # add scalebar - for all 
 ax.add_artist(ScaleBar(dx=1, units="m", location="lower left", length_fraction=0.25))
