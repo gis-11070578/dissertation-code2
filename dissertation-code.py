@@ -722,7 +722,7 @@ all_scenarios["mean_rank"] = all_scenarios["Mean_Score"].rank(ascending=False)
 
 
 #save new field back into shapefile ---
-all_scenarios.to_file("out/MIC_ALL_SCENARIOS")
+all_scenarios.to_file("out/MIC_ALL_SCENARIOS.shp")
 
 # EXPORT TO EXCEL -----
 all_scenarios.to_csv("out/Final_MIC_Results.csv")
