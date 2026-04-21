@@ -18,7 +18,7 @@ from shapely import unary_union
 from shapely import maximum_inscribed_circle
 from shapely.geometry import Point, LineString
 
-from matplotlib.pyplot import subplots, savefig, title
+from matplotlib.pyplot import subplots, savefig
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
@@ -344,19 +344,19 @@ scenarios = {
 #scenario 3 -
 #flood zones priority - then landuse - distance - then tank
     "Flood_Zones_Priority": {
-    "W_DISTANCE": 0.15,
+    "W_DISTANCE": 0.25,
     "W_LANDUSE": 0.20,
-    "W_TANKSIZE": 0.25,
+    "W_TANKSIZE": 0.15,
     "W_FLOODZONES": 0.40, 
     "ZOOM": 400}, 
 
 #scenario 4 -
 #tanksize priority - then distance - then landuse - then FZ
     "Tank_Size_Priority": {
-    "W_DISTANCE": 0.20,
+    "W_DISTANCE": 0.25,
     "W_LANDUSE": 0.15,
     "W_TANKSIZE": 0.40,
-    "W_FLOODZONES": 0.25, 
+    "W_FLOODZONES": 0.20, 
     "ZOOM": 350}, 
     
 #scenario 5 -
@@ -364,8 +364,8 @@ scenarios = {
     "Land_Use_Priority": {
     "W_DISTANCE": 0.25,
     "W_LANDUSE": 0.40,
-    "W_TANKSIZE": 0.15,
-    "W_FLOODZONES": 0.20,
+    "W_TANKSIZE": 0.20,
+    "W_FLOODZONES": 0.15,
     "ZOOM": 350}}
 
 
@@ -602,7 +602,7 @@ for idx, (ax, (scenario_name, weights)) in enumerate(zip(axes, scenarios.items()
 
     #plotting flood zones -----
     # only for scenarios 3 and 6 - with flood zones 
-    if scenario_name in ["Flood Zones Priority"]:
+    if scenario_name in ["Flood_Zones_Priority"]:
         
         #flood zone 2
         floodzone_2.plot(ax = ax, color = '#5CFFFC', edgecolor = 'lightblue',  linewidth = 0.5, alpha=0.5)
@@ -659,7 +659,7 @@ fig.legend(handles=[
     Line2D([0], [0], color='black',  lw=2, label='CSO to Outfall' ),
     Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='yellow', markeredgecolor='black', markersize=7, label='Lambridge CSO'),
     #Line2D([0], [0], marker='o', linestyle='None', markerfacecolor='blue', markeredgecolor='black', markersize=5, label='Lambridge Outfall'
-    
+   
     #flood zone 2 and 3 patch colours
     Patch(facecolor='#5CFFFC', edgecolor='lightblue', label="Flood Zone 2"),
     Patch(facecolor='#CACFFC', edgecolor='lightblue', label="Flood Zone 3")],
@@ -731,7 +731,7 @@ for name, weights in scenarios.items():
     print (weights["W_DISTANCE"], 
            weights["W_LANDUSE"], 
            weights["W_TANKSIZE"], 
-           weights["w_FLOODZONES"])
+           weights["W_FLOODZONES"])
 
 # --- NO CODE BELOW HERE -----
 
