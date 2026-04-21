@@ -727,6 +727,11 @@ all_scenarios.to_file("out/MIC_ALL_SCENARIOS.shp")
 # EXPORT TO EXCEL -----
 all_scenarios.to_csv("out/Final_MIC_Results.csv")
 
+for name, weights in scenarios.items():
+    print (weights["W_DISTANCE"], 
+           weights["W_LANDUSE"], 
+           weights["W_TANKSIZE"], 
+           weights["w_FLOODZONES"])
 
 # --- NO CODE BELOW HERE -----
 
