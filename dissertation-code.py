@@ -335,9 +335,9 @@ scenarios = {
 #scenario 2 -
 #distance priority - then landuse - then tank - then FZ
     "Distance_Priority": {
-    "W_DISTANCE": 0.50,
-    "W_LANDUSE": 0.20,
-    "W_TANKSIZE": 0.15,
+    "W_DISTANCE": 0.40,
+    "W_LANDUSE": 0.25,
+    "W_TANKSIZE": 0.20,
     "W_FLOODZONES": 0.15,
     "ZOOM": 500}, 
 
@@ -346,8 +346,8 @@ scenarios = {
     "Flood_Zones_Priority": {
     "W_DISTANCE": 0.15,
     "W_LANDUSE": 0.20,
-    "W_TANKSIZE": 0.15,
-    "W_FLOODZONES": 0.50, 
+    "W_TANKSIZE": 0.25,
+    "W_FLOODZONES": 0.40, 
     "ZOOM": 400}, 
 
 #scenario 4 -
@@ -355,17 +355,17 @@ scenarios = {
     "Tank_Size_Priority": {
     "W_DISTANCE": 0.20,
     "W_LANDUSE": 0.15,
-    "W_TANKSIZE": 0.50,
-    "W_FLOODZONES": 0.15, 
+    "W_TANKSIZE": 0.40,
+    "W_FLOODZONES": 0.25, 
     "ZOOM": 350}, 
     
 #scenario 5 -
 #landuse priority - then distance - then tanksize - then FZ
     "Land_Use_Priority": {
-    "W_DISTANCE": 0.20,
-    "W_LANDUSE": 0.50,
+    "W_DISTANCE": 0.25,
+    "W_LANDUSE": 0.40,
     "W_TANKSIZE": 0.15,
-    "W_FLOODZONES": 0.15,
+    "W_FLOODZONES": 0.20,
     "ZOOM": 350}}
 
 
