@@ -330,7 +330,7 @@ scenarios = {
     "W_LANDUSE": 0.25,
     "W_TANKSIZE": 0.25,
     "W_FLOODZONES": 0.25, 
-    "ZOOM": 350}, 
+    "ZOOM": 500}, 
     
 #scenario 2 -
 #distance priority - then landuse - then tank - then FZ
@@ -348,7 +348,7 @@ scenarios = {
     "W_LANDUSE": 0.20,
     "W_TANKSIZE": 0.15,
     "W_FLOODZONES": 0.40, 
-    "ZOOM": 400}, 
+    "ZOOM": 500}, 
 
 #scenario 4 -
 #tanksize priority - then distance - then landuse - then FZ
@@ -357,7 +357,7 @@ scenarios = {
     "W_LANDUSE": 0.15,
     "W_TANKSIZE": 0.40,
     "W_FLOODZONES": 0.20, 
-    "ZOOM": 350}, 
+    "ZOOM": 500}, 
     
 #scenario 5 -
 #landuse priority - then distance - then tanksize - then FZ
@@ -366,7 +366,7 @@ scenarios = {
     "W_LANDUSE": 0.40,
     "W_TANKSIZE": 0.20,
     "W_FLOODZONES": 0.15,
-    "ZOOM": 350}}
+    "ZOOM": 500}}
 
 
 # DISTANCE FROM CSO - NEED LOCATION -----
